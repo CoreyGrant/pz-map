@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PzMap")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f71c0451647a613fb7de2104f33236ef4be51397")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c71943acb47f16aa9b31b9c42d0a5ff14e8af48")]
 [assembly: System.Reflection.AssemblyProductAttribute("PzMap")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PzMap")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
