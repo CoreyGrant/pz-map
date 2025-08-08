@@ -19,3 +19,6 @@ C:\Users\corey\source\repos\PzMap\PzMap\bin\Debug\net9.0\Microsoft.Win32.SystemE
 C:\Users\corey\source\repos\PzMap\PzMap\bin\Debug\net9.0\System.Drawing.Common.dll
 C:\Users\corey\source\repos\PzMap\PzMap\bin\Debug\net9.0\System.Private.Windows.Core.dll
 C:\Users\corey\source\repos\PzMap\PzMap\bin\Debug\net9.0\runtimes\win\lib\net9.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\corey\source\repos\PzMap\PzMap\bin\Debug\net9.0\wwwroot\index.html
+C:\Users\corey\source\repos\PzMap\PzMap\bin\Debug\net9.0\wwwroot\index.js
+C:\Users\corey\source\repos\PzMap\PzMap\obj\Debug\net9.0\PzMap.sourcelink.json

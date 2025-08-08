@@ -3,27 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\corey\\source\\repos\\PzMap\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\pzmapsvgbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\pzmapsvgbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\gamedatareader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\gamedatareader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\utilities\\svgwriter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\utilities\\svgwriter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\wwwroot\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\wwwroot\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\roadreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\roadreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Dev\\logs\\000Strings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\pzmap.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\pzmap.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\lotheaderreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\lotheaderreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|c:\\users\\corey\\source\\repos\\pzmap\\pzmap\\xmlmapreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{12B430F1-0ED1-4BB0-B2A2-76B0D008A88E}|PzMap\\PzMap.csproj|solutionrelative:pzmap\\xmlmapreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,84 +34,90 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "000Strings.json",
-              "DocumentMoniker": "C:\\Dev\\logs\\000Strings.json",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Dev\\logs\\000Strings.json",
-              "ToolTip": "C:\\Dev\\logs\\000Strings.json",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\Dev\\logs\\000Strings.json",
-              "ViewState": "AgIAAFkBAAAAAAAAAAAAAGkBAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-24T17:40:43.176Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PzMap",
-              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\PzMap.csproj",
-              "RelativeDocumentMoniker": "PzMap\\PzMap.csproj",
-              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\PzMap.csproj",
-              "RelativeToolTip": "PzMap\\PzMap.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-07-24T16:57:49.774Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RoadReader.cs",
-              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\RoadReader.cs",
-              "RelativeDocumentMoniker": "PzMap\\RoadReader.cs",
-              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\RoadReader.cs",
-              "RelativeToolTip": "PzMap\\RoadReader.cs",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAcwJ0AAAANAAAAAAAAAA==",
+              "Title": "PzMapSvgBuilder.cs",
+              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\PzMapSvgBuilder.cs",
+              "RelativeDocumentMoniker": "PzMap\\PzMapSvgBuilder.cs",
+              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\PzMapSvgBuilder.cs",
+              "RelativeToolTip": "PzMap\\PzMapSvgBuilder.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB8AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T14:17:31.481Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "XmlMapReader.cs",
-              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\XmlMapReader.cs",
-              "RelativeDocumentMoniker": "PzMap\\XmlMapReader.cs",
-              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\XmlMapReader.cs",
-              "RelativeToolTip": "PzMap\\XmlMapReader.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAAAgwB8AAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T13:59:31.77Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "LotHeaderReader.cs",
-              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\LotHeaderReader.cs",
-              "RelativeDocumentMoniker": "PzMap\\LotHeaderReader.cs",
-              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\LotHeaderReader.cs",
-              "RelativeToolTip": "PzMap\\LotHeaderReader.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T12:12:35.403Z",
+              "WhenOpened": "2025-08-08T23:15:30.076Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\Program.cs",
-              "RelativeDocumentMoniker": "PzMap\\Program.cs",
-              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\Program.cs",
-              "RelativeToolTip": "PzMap\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAeAAAAAAAAAA==",
+              "Title": "GameDataReader.cs",
+              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\GameDataReader.cs",
+              "RelativeDocumentMoniker": "PzMap\\GameDataReader.cs",
+              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\GameDataReader.cs",
+              "RelativeToolTip": "PzMap\\GameDataReader.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-24T12:11:58.034Z",
+              "WhenOpened": "2025-08-08T23:32:57.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RoadReader.cs",
+              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\RoadReader.cs",
+              "RelativeDocumentMoniker": "PzMap\\RoadReader.cs",
+              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\RoadReader.cs",
+              "RelativeToolTip": "PzMap\\RoadReader.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAQwCIAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-08T23:15:32.021Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SvgWriter.cs",
+              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\Utilities\\SvgWriter.cs",
+              "RelativeDocumentMoniker": "PzMap\\Utilities\\SvgWriter.cs",
+              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\Utilities\\SvgWriter.cs",
+              "RelativeToolTip": "PzMap\\Utilities\\SvgWriter.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwB8AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-08T22:49:22.523Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\wwwroot\\index.js",
+              "RelativeDocumentMoniker": "PzMap\\wwwroot\\index.js",
+              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\wwwroot\\index.js",
+              "RelativeToolTip": "PzMap\\wwwroot\\index.js",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAcwHgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-08-08T22:40:10.458Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\wwwroot\\index.html",
+              "RelativeDocumentMoniker": "PzMap\\wwwroot\\index.html",
+              "ToolTip": "C:\\Users\\corey\\source\\repos\\PzMap\\PzMap\\wwwroot\\index.html",
+              "RelativeToolTip": "PzMap\\wwwroot\\index.html",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAEgAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-08-08T22:59:17.488Z",
               "EditorCaption": ""
             }
           ]

@@ -1,0 +1,108 @@
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        #svg-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+        }
+
+        svg {
+            height: 100%;
+            width: calc(100% - 220px);
+        }
+
+        #pop-over {
+            border: 1px solid black;
+            padding: 8px;
+            height: 100%;
+            width: 220px;
+        }
+
+        body {
+            background-color: rgb(216, 211, 185);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: "Roboto"
+        }
+
+        #pop-over-name{
+            font-size: 28px;
+            margin: 0;
+            margin-bottom: 8px;
+        }
+
+        #pop-over-looted, #pop-over-survivor {
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+        }
+
+        #pop-over-notes-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #pop-over-notes{
+            height: 600px;
+            resize: vertical;
+        }
+
+        #pop-over-notes-container label {
+            font-size: 24px;
+        }
+
+        input[type="checkbox"] {
+            height: 40px;
+            width: 40px;
+        }
+        #map-control {
+            width: 166px;
+            height: 216px;
+            padding: 8px;
+            background-color: rgb(216, 211, 185);
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 2px solid black;
+        }
+
+        #map-control button{
+            font-size: 32px;
+            border-radius: 0;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="svg-container">
+        <svg></svg>
+        <div id="pop-over" style="display: none">
+            <p id="pop-over-name"></p>
+            <div id="pop-over-survivor">
+                <label for="pop-over-survivor-input">Survivor</label>
+                <input type="checkbox" id="pop-over-survivor-input"/>
+            </div>
+            <div id="pop-over-looted">
+                <label for="pop-over-looted-input">Looted</label>
+                <input type="checkbox" id="pop-over-looted-input"/>
+            </div>
+            <div id="pop-over-notes-container">
+                <label for="pop-over-notes">Notes</label>
+                <textarea id="pop-over-notes"></textarea>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script id="info"></script>
+    <script id="metadata"></script>
+    <script></script>
+</body>
+</html>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PzMap.Types;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -11,22 +12,6 @@ using System.Xml.Serialization;
 namespace PzMap
 {
     #region Options
-
-    public class DrawingLayers
-    {
-        public List<Segment> RoadLayer { get; set; }
-        public List<Segment> BuildingLayer { get; set; }
-        public List<Segment> WaterLayer { get; set; }
-        public List<Segment> DrivewayLayer { get; set; }
-        public List<Segment> NaturalLayer { get; set; }
-        public List<Segment> RailwayLayer { get; set; }
-    }
-
-    public class DrawingOptions
-    {
-        public MapBackgroundMode MapBackgroundMode { get; set; }
-        public MapMode MapMode { get; set; }
-    }
 
     public enum MapBackgroundMode
     {
@@ -44,81 +29,13 @@ namespace PzMap
 
     public class RoadReader
     {
-        private const string FolderLocation = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\ProjectZomboid\\media\\maps";
-        private const string XmlFileName = "worldmap.xml";
         private const string OutputFilename = "C:\\Dev\\logs\\project-zomboid-b41-map{0}{1}.png";
         private const int CellWidth = 300;
         private const int CellHeight = 300;
         private readonly Color PaperColor = Color.FromArgb(216, 211, 185);
         public void Generate()
         {
-            var folders = Directory.GetDirectories(FolderLocation);
-            var allRoadSegments = new List<Segment>();
-            var allBuildingSegments = new List<Segment>();
-            var allWaterSegments = new List<Segment>();
-            var allDrivewaySegments = new List<Segment>();
-            var allMapNames = new List<MapName>();
-            var allNaturalSegments = new List<Segment>();
-            var allRailwaySegments = new List<Segment>();
-            foreach (var folder in folders)
-            {
-                if (!IsValidSubFolder(folder)) { continue; }
-                Console.WriteLine($"Loading folder '{folder}'");
-                var fullPath = Path.Combine(folder, XmlFileName);
-                var xmlString = File.ReadAllText(fullPath);
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xmlString);
-                var element = doc.DocumentElement;
-                var reader = new XmlMapReader(element);
-                var cells = reader.ReadFeatures();
-                foreach (var cell in cells)
-                {
-                    foreach (var feature in cell.Features)
-                    {
-                        if (!feature.Properties.Any()) { continue; }
-                        var property = feature.Properties.First();
-                        AddSegmentsToList(allRoadSegments, "highway", property, cell, feature);
-                        AddSegmentsToList(allBuildingSegments, "building", property, cell, feature);
-                        AddSegmentsToList(allWaterSegments, "water", property, cell, feature);
-                        AddSegmentsToList(allDrivewaySegments, "driveway", property, cell, feature);
-                        AddSegmentsToList(allNaturalSegments, "natural", property, cell, feature);
-                        AddSegmentsToList(allRailwaySegments, "railway", property, cell, feature);
-
-                        if (feature.Properties.Any(x => x.Item1 == "name_en"))
-                        {
-                            var type = feature.Properties.Single(x => x.Item1 == "name_en").Item2;
-                            foreach (var geo in feature.Geometry)
-                            {
-                                var points = geo.Points.Select(x => new Vector2
-                                {
-                                    X = x.X + CellWidth * cell.Location.X,
-                                    Y = x.Y + CellHeight * cell.Location.Y
-                                }).ToArray();
-                                allMapNames.Add(new MapName
-                                {
-                                    Point = points.Single(),
-                                    Name = type,
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-            var drawingLayers = new DrawingLayers 
-            { 
-                BuildingLayer = allBuildingSegments, 
-                DrivewayLayer = allDrivewaySegments, 
-                NaturalLayer = allNaturalSegments, 
-                RailwayLayer = allRailwaySegments, 
-                RoadLayer = allRoadSegments.OrderBy(x =>
-                {
-                    if (x.Type == "road_trail") { return 0; }
-                    if (x.Type == "road_tertiary") { return 1; }
-                    if (x.Type == "road_secondary") { return 2; }
-                    return 3;
-                }).ToList(),
-                WaterLayer = allWaterSegments
-            };
+            var drawingLayers = new GameDataReader().ReadGameData();
             DrawImage(drawingLayers, new DrawingOptions { MapBackgroundMode = MapBackgroundMode.Tiled, MapMode = MapMode.All });
             DrawImage(drawingLayers, new DrawingOptions { MapBackgroundMode = MapBackgroundMode.Black, MapMode = MapMode.All });
             DrawImage(drawingLayers, new DrawingOptions { MapBackgroundMode = MapBackgroundMode.Paper, MapMode = MapMode.All });
@@ -437,23 +354,9 @@ namespace PzMap
 
     
 
-    public class ImageDimensions
-    {
-        public int XOffset { get; set; }
-        public int YOffset { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-    }
+    
 
-    public class Segment
-    {
-        public Vector2[] Points { get; set; }
-        public string Type { get; set; }
-    }
+    
 
-    public class MapName
-    {
-        public Vector2 Point { get; set; }
-        public string Name { get; set; }
-    }
+    
 }
