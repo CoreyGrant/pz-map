@@ -1,4 +1,5 @@
-﻿using PzMap.Types.Enums;
+﻿using PzMap.Types;
+using PzMap.Types.Enums;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,6 +28,21 @@ namespace PzMap.Utilities
             _sb.AppendLine(polygon.ToString());
         }
 
+        public void AddBounding(ImageDimensions imageDimensions)
+        {
+            var offsetX = -imageDimensions.XOffset;
+            var offsetY = -imageDimensions.YOffset;
+            var points = new List<Vector2>
+            {
+                new Vector2{X = offsetX, Y = offsetY},
+                new Vector2{X = offsetX, Y = imageDimensions.Height + offsetY},
+                new Vector2{X = imageDimensions.Width + offsetX, Y = imageDimensions.Height + offsetY},
+                new Vector2{X = imageDimensions.Width + offsetX, Y = offsetY}
+            };
+            var polygon = new SvgPolygon(points, "", "", "bounding-box", (null, Color.Black)) { StrokeWidth = 10 };
+            AddPolygon(polygon);
+        }
+
         public string ToString()
         {
             return $@"<svg style=""background-color: rgb(216, 211, 185)"">
@@ -42,6 +58,7 @@ namespace PzMap.Utilities
         public string Key { get; }
         public string Id { get; }
         public (Color?, Color?) Color { get; }
+        public int StrokeWidth { get; set; } = 1;
         public SvgPolygon(IEnumerable<Vector2> points, string type, string key, string id, (Color?, Color?) color)
         {
             Points = points;
@@ -54,11 +71,17 @@ namespace PzMap.Utilities
         public override string ToString()
         {
             var (fill, stroke) = Color;
+            var xPoints = Points.Select(x => x.X);
+            var yPoints = Points.Select(x => x.Y);
+            var midPointX = (xPoints.Max() + xPoints.Min())/2;
+            var midPointY = (yPoints.Max() + yPoints.Min())/2;
             return $@"<polygon 
     stroke=""{ColorToString(stroke)}""
-    stroke-width=""1""
+    stroke-width=""{StrokeWidth}""
     type=""{Type}""
     key=""{Key}""
+    midpoint-x=""{midPointX}""
+    midpoint-y=""{midPointY}""
     fill=""{ColorToString(fill)}""
     points=""{string.Join(" ", Points.Select(x => x.X + "," + x.Y))}"" 
     id=""{Id}""/>";

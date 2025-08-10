@@ -1,108 +1,95 @@
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-        #svg-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            display: flex;
-        }
-
-        svg {
-            height: 100%;
-            width: calc(100% - 220px);
-        }
-
-        #pop-over {
-            border: 1px solid black;
-            padding: 8px;
-            height: 100%;
-            width: 220px;
-        }
-
-        body {
-            background-color: rgb(216, 211, 185);
-        }
-
-        * {
-            box-sizing: border-box;
-            font-family: "Roboto"
-        }
-
-        #pop-over-name{
-            font-size: 28px;
-            margin: 0;
-            margin-bottom: 8px;
-        }
-
-        #pop-over-looted, #pop-over-survivor {
-            display: flex;
-            justify-content: space-between;
-            font-size: 24px;
-        }
-
-        #pop-over-notes-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #pop-over-notes{
-            height: 600px;
-            resize: vertical;
-        }
-
-        #pop-over-notes-container label {
-            font-size: 24px;
-        }
-
-        input[type="checkbox"] {
-            height: 40px;
-            width: 40px;
-        }
-        #map-control {
-            width: 166px;
-            height: 216px;
-            padding: 8px;
-            background-color: rgb(216, 211, 185);
-            position: absolute;
-            top: 0;
-            left: 0;
-            border: 2px solid black;
-        }
-
-        #map-control button{
-            font-size: 32px;
-            border-radius: 0;
-        }
-    </style>
+    <style id="app-style"></style>
+    <style id="app-style-mobile"></style>
 
 </head>
 <body>
     <div id="svg-container">
         <svg></svg>
-        <div id="pop-over" style="display: none">
-            <p id="pop-over-name"></p>
-            <div id="pop-over-survivor">
-                <label for="pop-over-survivor-input">Survivor</label>
-                <input type="checkbox" id="pop-over-survivor-input"/>
+        <div id="sidebar">
+            <div id="pop-over-default">
+                <p>Select a building</p>
             </div>
-            <div id="pop-over-looted">
-                <label for="pop-over-looted-input">Looted</label>
-                <input type="checkbox" id="pop-over-looted-input"/>
+            <div id="pop-over" style="display: none">
+                <p id="pop-over-name"></p>
+                <div id="pop-over-checkboxes">
+                    <div id="pop-over-survivor">
+                        <label for="pop-over-survivor-input">Survivor</label>
+                        <input type="checkbox" id="pop-over-survivor-input" />
+                    </div>
+                    <div id="pop-over-looted">
+                        <label for="pop-over-looted-input">Looted</label>
+                        <input type="checkbox" id="pop-over-looted-input" />
+                    </div>
+                    <div id="pop-over-base">
+                        <label for="pop-over-base-input">Base</label>
+                        <input type="checkbox" id="pop-over-base-input" />
+                    </div>
+                </div>
+                <div id="pop-over-notes-container">
+                    <label for="pop-over-notes">Notes</label>
+                    <textarea id="pop-over-notes"></textarea>
+                </div>
+                <div id="pop-over-rooms">
+
+                </div>
             </div>
-            <div id="pop-over-notes-container">
-                <label for="pop-over-notes">Notes</label>
-                <textarea id="pop-over-notes"></textarea>
-            </div>
-            
+            <fieldset id="save-manager">
+                <legend>Save</legend>
+                <select id="save-manager-select"></select>
+                <div id="save-manager-new" style="display: none;">
+                    <label>Name</label>
+                    <input type="text" />
+                    <button>Save</button>
+                </div>
+                <div id="save-manager-show-new">
+                    <button>Add</button>
+                </div>
+            </fieldset>
+            <fieldset id="toolbar">
+                <legend>Add text</legend>
+                <div>
+                    <input type="text" id="toolbar-input" />
+
+                    <button id="toolbar-button">Add</button>
+                </div>
+                <div>
+                    <select id="toolbar-size">
+                        <option value="14px" selected>Small</option>
+                        <option value="20px">Medium</option>
+                        <option value="32px">Large</option>
+                    </select>
+                    <select id="toolbar-color">
+                        <option value="rgb(0, 0, 0)" selected>Black</option>
+                        <option value="rgb(255,0,0)">Red</option>
+                        <option value="rgb(0,0,255)">Blue</option>
+                        <option value="rgb(0,255,0)">Green</option>
+                    </select>
+                </div>
+            </fieldset>
+            <fieldset id="locator">
+                <legend>Room Locator</legend>
+                <select id="locator-select"></select>
+                <button id="locator-button">Show</button>
+            </fieldset>
         </div>
     </div>
     
     <script id="info"></script>
     <script id="metadata"></script>
-    <script></script>
+    <script id="mapSvg"></script>
+    <script id="saveManager"></script>
+    <script id="stateManager"></script>
+    <script id="popover"></script>
+    <script id="toolbar"></script>
+    <script id="locator"></script>
+    <script id="main"></script>
 </body>
 </html>

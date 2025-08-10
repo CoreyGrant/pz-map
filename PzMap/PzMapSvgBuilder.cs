@@ -14,10 +14,14 @@ namespace PzMap
     public class PzMapSvgBuilder
     {
         private readonly GameDataReader _gameDataReader;
+        private readonly PzMapRoomReader _pzMapRoomReader;
 
-        public PzMapSvgBuilder(GameDataReader gameDataReader) 
+        public PzMapSvgBuilder(
+            GameDataReader gameDataReader,
+            PzMapRoomReader pzMapRoomReader) 
         {
             _gameDataReader = gameDataReader;
+            _pzMapRoomReader = pzMapRoomReader;
         }
 
         public (string, string, string) BuildSvg()
@@ -25,15 +29,13 @@ namespace PzMap
             var drawingLayers = _gameDataReader.ReadGameData();
             var imageDimensions = GetImageDimensions(drawingLayers);
             var svgWriter = new SvgWriter();
-            var metadataDict = new Dictionary<string, Dictionary<string, string>>();
-            
-            AddToSvg(drawingLayers.WaterLayer, svgWriter);
-            AddToSvg(drawingLayers.RailwayLayer, svgWriter); 
-            AddToSvg(drawingLayers.BuildingLayer, svgWriter);
-            AddToSvg(drawingLayers.RoadLayer, svgWriter);
+            var metadataDict = _pzMapRoomReader.AssignBuildingTypesFromLotHeaders(drawingLayers.BuildingLayer);
 
-            AddToMetadata(drawingLayers.BuildingLayer, metadataDict);
-            AddToMetadata(drawingLayers.RoadLayer, metadataDict);
+            AddToSvg(drawingLayers.WaterLayer, svgWriter); 
+            AddToSvg(drawingLayers.RailwayLayer, svgWriter); 
+            AddToSvg(drawingLayers.RoadLayer, svgWriter);
+            AddToSvg(drawingLayers.BuildingLayer, svgWriter);
+            svgWriter.AddBounding(imageDimensions);
 
             var metadata = JsonConvert.SerializeObject(metadataDict);
 
@@ -47,17 +49,10 @@ namespace PzMap
 
         private void AddToSvg(List<Segment> segments, SvgWriter svgWriter)
         {
-            foreach(var segment in segments)
+
+            foreach (var segment in segments)
             {
                 svgWriter.AddPolygon(segment.Points, segment.Type, segment.Key, segment.Id, GetColor(segment.Type, segment.Key));
-            }
-        }
-
-        private void AddToMetadata(List<Segment> segments, Dictionary<string, Dictionary<string, string>> metadata)
-        {
-            foreach (var segment in segments) 
-            {
-                metadata[segment.Id] = new Dictionary<string, string>();
             }
         }
 

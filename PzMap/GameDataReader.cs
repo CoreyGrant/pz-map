@@ -14,7 +14,8 @@ namespace PzMap
         private readonly string _xmlFileName;
         private readonly int _cellWidth;
         private readonly int _cellHeight;
-
+        public int CellHeight => _cellHeight;
+        public int CellWidth => _cellWidth;
         public GameDataReader(
             string mapFolder = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\ProjectZomboid\\media\\maps",
             string xmlFileName = "worldmap.xml",
@@ -56,7 +57,7 @@ namespace PzMap
                         var property = feature.Properties.First();
                         AddSegmentsToList(allRoadSegments, "highway", property, cell, feature);
                         AddSegmentsToList(allBuildingSegments, "building", property, cell, feature);
-                        AddSegmentsToList(allWaterSegments, "water", property, cell, feature);
+                        AddSegmentsToList(allWaterSegments, "water", property, cell, feature, true);
                         AddSegmentsToList(allDrivewaySegments, "driveway", property, cell, feature);
                         AddSegmentsToList(allNaturalSegments, "natural", property, cell, feature);
                         AddSegmentsToList(allRailwaySegments, "railway", property, cell, feature);
@@ -105,13 +106,27 @@ namespace PzMap
             string key,
             (string, string) property,
             MapCell cell,
-            MapFeature feature)
+            MapFeature feature,
+            bool overlap = false)
         {
             if (property.Item1 == key)
             {
                 var type = property.Item2;
                 foreach (var geo in feature.Geometry)
                 {
+                    if (overlap)
+                    {
+                        geo.Points = geo.Points.Select(p =>
+                        {
+                            var x = p.X;
+                            var y = p.Y;
+                            if(x == 0) { x -= 2; }
+                            if(x == _cellWidth) { x += 2; }
+                            if (y == 0) { y -= 2; }
+                            if (y == _cellHeight) { y += 2; }
+                            return new Vector2 { X = x, Y = y };
+                        }).ToArray();
+                    }
                     var points = geo.Points.Select(x => new Vector2
                     {
                         X = x.X + _cellWidth * cell.Location.X,

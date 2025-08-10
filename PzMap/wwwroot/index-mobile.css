@@ -1,0 +1,153 @@
+﻿@media (max-width: 768px) {
+    body{
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+    }
+    #svg-container{
+        height: 100vh;
+        width: 100vw;
+    }
+    #sidebar{
+        width: 150px;
+        right: 0;
+        height: 90%;
+    }
+
+    #pop-over, #pop-over-default{
+        height: 45%;
+        padding: 4px;
+    }
+
+    #pop-over-name {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    #pop-over-looted, #pop-over-survivor, #pop-over-base {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+    }
+
+    #pop-over-notes {
+        height: 100px;
+    }
+
+    #pop-over-rooms {
+        margin-top: 4px;
+        max-height: 100px;
+    }
+
+    #pop-over-notes-container label {
+        font-size: 12px;
+    }
+
+    #map-control {
+        width: 104px;
+        height: 136px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
+
+    #map-control button {
+        font-size: 14px;
+    }
+
+    #map-control-up, #map-control-down, #map-control-left, #map-control-right {
+        width: 32px;
+        height: 32px;
+    }
+
+    #map-control-in, #map-control-out {
+        width: 48px;
+        height: 32px;
+    }
+
+    #map-control-up {
+        top: 4px;
+        left: 36px;
+    }
+
+    #map-control-down {
+        top: 66px;
+        left: 36px;
+    }
+
+    #map-control-left {
+        left: 4px;
+        top: 36px;
+    }
+
+    #map-control-right {
+        left: 66px;
+        top: 36px;
+    }
+
+    #map-control-in {
+        left: 4px;
+        top: 100px;
+    }
+
+    #map-control-out {
+        left: 52px;
+        top: 100px;
+    }
+    #save-manager{
+        padding: 4px;
+        margin-left: 4px;
+        margin-right: 4px;
+        flex-direction: column;
+    }
+    #save-manager-new input {
+        width: 80px;
+    }
+
+    #save-manager-new button {
+        width: 40px;
+    }
+    #save-manager-select {
+        min-width: 100px;
+    }
+    #toolbar{
+        padding: 4px;
+        margin-left: 4px;
+        margin-right: 4px;
+        flex-direction: column;
+    }
+    #toolbar > div{
+        flex-direction: column;
+    }
+    #toolbar-input {
+        width: 100px;
+    }
+
+    #toolbar-button {
+        width: 40px;
+    }
+    #locator{
+        padding: 4px;
+        margin-left: 4px;
+        margin-right: 4px;
+        flex-direction: column;
+    }
+    #locator-select{
+        width: 100px;
+        margin: 0;
+    }
+    #locator-button{
+        width: 50px;
+    }
+    .chip {
+        padding: 2px;
+        margin: 2px;
+        border: 1px solid black;
+        border-radius: 2px;
+        font-size: 9px;
+    }
+
+    input[type="checkbox"] {
+        height: 14px;
+        width: 14px;
+    }
+}

@@ -1,24 +1,89 @@
 ﻿using PzMap;
+using PzMapTools;
 
 var arguments = args;
 
+var assetFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+const string lotHeaderPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\ProjectZomboid\\media\\maps\\Muldraugh, KY";
+var lotHeadeReader = new LotHeaderReader();
+var dataCache = new DataCache();
 Action run = () =>
 {
-    var indexHtmlPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/index.html");
-    var indexJsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/index.js");
-    var indexHtml = File.ReadAllText(indexHtmlPath);
-    var indexJs = File.ReadAllText(indexJsPath);
-    var (svg, metadata, info) = new PzMapSvgBuilder(new GameDataReader()).BuildSvg();
-    var outputHtml = indexHtml
-        .Replace("<svg></svg>", svg)
-        .Replace("<script id=\"metadata\"></script>", @$"<script>
-    window.metadata = {metadata};
-</script>")
-        .Replace("<script id=\"info\"></script>", @$"<script>
-    window.info = {info};
-</script>")
-        .Replace("<script></script>", "<script>\n" + indexJs + "\n</script>");
-    File.WriteAllText("output.html", outputHtml);
+    string svg; string metadata; string info;
+    if(!dataCache.TryGetCached(out svg, out metadata, out info))
+    {
+        (svg, metadata, info) = new PzMapSvgBuilder(
+        new GameDataReader(),
+        new PzMapRoomReader(
+            lotHeadeReader,
+            lotHeaderPath)).BuildSvg();
+        dataCache.Cache(svg, metadata, info);
+    }
+    
+    var htmlBuilder = new HtmlBuilder(
+        assetFolder,
+        "index.html",
+        [
+            new AssetReplacement
+            {
+                FileName = "index.js",
+                ReplacementText = "<script id=\"main\"></script>"
+            },
+            new AssetReplacement
+            {
+                FileName = "mapSvg.js",
+                ReplacementText = "<script id=\"mapSvg\"></script>"
+            },
+            new AssetReplacement{
+                FileName = "index.css",
+                ReplacementText = "<style id=\"app-style\"></style>",
+                Tag = "style"
+            },
+            new AssetReplacement{
+                FileName = "index-mobile.css",
+                ReplacementText = "<style id=\"app-style-mobile\"></style>",
+                Tag = "style"
+            },
+            new AssetReplacement{
+                FileName = "popover.js",
+                ReplacementText = "<script id=\"popover\"></script>"
+            },
+            new AssetReplacement{
+                FileName = "saveManager.js",
+                ReplacementText = "<script id=\"saveManager\"></script>"
+            },
+            new AssetReplacement{
+                FileName = "stateManager.js",
+                ReplacementText = "<script id=\"stateManager\"></script>"
+            },
+            new AssetReplacement{
+                FileName = "toolbar.js",
+                ReplacementText = "<script id=\"toolbar\"></script>"
+            },
+            new AssetReplacement{
+                FileName = "locator.js",
+                ReplacementText = "<script id=\"locator\"></script>"
+            }
+        ],
+        [
+            new JsonReplacement{
+                ReplacementText = "<script id=\"metadata\"></script>",
+                Json = metadata,
+                Name = "metadata",
+            },
+            new JsonReplacement{
+                ReplacementText = "<script id=\"info\"></script>",
+                Json = info,
+                Name = "info"
+            }
+        ],
+        [
+            new TextReplacement{
+                ReplacementText = "<svg></svg>",
+                Text = svg
+            }
+        ]);
+    htmlBuilder.PerformAndSave("index.html");
 };
 run();
 
@@ -32,6 +97,7 @@ watcher.Changed += (Object o, FileSystemEventArgs e) =>
 };
 Console.WriteLine("Watching folder for changes");
 new System.Threading.AutoResetEvent(false).WaitOne();
+
 //var defaultFunction = "mapgen";
 //var function = args.Length == 0 ? defaultFunction : args[0];
 //if (function == "mapgen")

@@ -1,0 +1,226 @@
+﻿#svg-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+svg {
+    height: 100%;
+    width: 100%;
+}
+#sidebar {
+    position: absolute;
+    border: 2px solid black;
+    right: 8px;
+    top: 8px;
+    height: calc(100% - 16px);
+    width: 300px;
+    background-color: rgb(216, 211, 185);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#pop-over {
+    height: 50%;
+    padding: 8px;
+    width: calc(100% - 16px);
+}
+
+#pop-over-default {
+    font-size: 28px;
+    height: 50%;
+}
+
+#pop-over-default p{
+    margin: 0;
+}
+
+body {
+    background-color: rgb(216, 211, 185);
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Roboto";
+}
+
+option{
+    font-family: "Roboto";
+}
+
+#pop-over-checkboxes{
+    display: flex;
+    flex-direction: column;
+}
+
+#pop-over-name {
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+#pop-over-looted, #pop-over-survivor, #pop-over-base {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+#pop-over-notes-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#pop-over-notes {
+    height: 140px;
+    resize: none;
+}
+
+#pop-over-rooms{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    max-height: 150px;
+    margin-top: 8px;
+}
+
+.chip{
+    padding: 4px;
+    margin: 4px;
+    border: 1px solid black;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+#pop-over-notes-container label {
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    height: 24px;
+    width: 24px;
+}
+
+#map-control {
+    width: 166px;
+    height: 216px;
+    padding: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+    position: relative;
+    margin-top: auto;
+}
+
+#map-control button {
+    font-size: 32px;
+    border-radius: 0;
+}
+
+#map-control-up, #map-control-down, #map-control-left, #map-control-right, #map-control-in, #map-control-out {
+    position: absolute;
+}
+
+#map-control-up, #map-control-down, #map-control-left, #map-control-right {
+    width: 50px;
+    height: 50px;
+}
+
+#map-control-in, #map-control-out {
+    width: 75px;
+    height: 50px;
+}
+
+#map-control-up {
+    top: 8px;
+    left: 58px;
+}
+
+#map-control-down {
+    top: 108px;
+    left: 58px;
+}
+
+#map-control-left {
+    left: 8px;
+    top: 58px;
+}
+
+#map-control-right {
+    left: 108px;
+    top: 58px;
+}
+
+#map-control-in {
+    left: 8px;
+    top: 158px;
+}
+
+#map-control-out {
+    left: 83px;
+    top: 158px;
+}
+
+#save-manager {
+    display: flex;
+    padding: 8px;
+    width: calc(100% - 16px);
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+#save-manager-select{
+    min-width: 150px;
+}
+
+#save-manager-new{
+    display: flex;
+}
+
+#save-manager-new label{
+    margin-left: 8px;
+}
+
+#save-manager-new input{
+    width: 200px;
+    margin-left: 8px;
+}
+
+#save-manager-new button{
+    width: 60px;
+}
+
+#toolbar {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    width: calc(100% - 16px);
+    margin-left: 8px;
+    margin-right: 8px;
+    display: none;
+}
+#toolbar > div{
+    display: flex;
+}
+
+#toolbar-input{
+    width: 150px;
+}
+
+#toolbar-button{
+    width: 50px;
+}
+
+#locator {
+    display: flex;
+    padding: 8px;
+    width: calc(100% - 16px);
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+#locator-select{
+}
+
+
