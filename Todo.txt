@@ -3,11 +3,11 @@ Mobile pinch-to-zoom
 Fix location of text added via toolbar
 Add more options for icons to add via toolbar
 Collapsing menus for mobile
-Better visibility of survivor/looted/base
+-- Better visibility of survivor/looted/base
 Option to list buildings by room types
 Town names written on map
 Building types derived from rooms
-Cancel option for adding saves
-Option to delete saves
+-- Cancel option for adding saves
+-- Option to delete saves
 Show number of floors per building
-Scroll wheel zoom should centre on the location of the mouse pointer
+-- Scroll wheel zoom should centre on the location of the mouse pointer

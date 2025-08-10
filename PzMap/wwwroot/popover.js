@@ -1,5 +1,7 @@
 ﻿
-(function() {
+(function () {
+    
+
     class Popover {
         popover;
         popoverDefault;
@@ -75,11 +77,30 @@
             // put the popover next to it, wherever it fits
             this.popover.style.display = "initial";
             this.popoverDefault.style.display = "none";
+            document.addEventListener('keydown', this.keyPressFunc);
         }
 
         hide() {
             this.popover.style.display = "none";
             this.popoverDefault.style.display = "initial";
+            document.removeEventListener('keydown', this.keyPressFunc);
+        }
+        keyPressFunc = this.keyPress.bind(this);
+        keyPress(ev) {
+            switch (ev.key) {
+                case "s":
+                    this.popoverSurvivorCheckbox.checked = !this.popoverSurvivorCheckbox.checked;
+                    this.popoverSurvivorCheckbox.dispatchEvent(new Event("change"));
+                    break;
+                case "b":
+                    this.popoverBaseCheckbox.checked = !this.popoverBaseCheckbox.checked;
+                    this.popoverBaseCheckbox.dispatchEvent(new Event("change"));
+                    break;
+                case "l":
+                    this.popoverLootedCheckbox.checked = !this.popoverLootedCheckbox.checked;
+                    this.popoverLootedCheckbox.dispatchEvent(new Event("change"));
+                    break;
+            }
         }
 
         getName(id) {

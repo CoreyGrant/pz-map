@@ -48,6 +48,18 @@ class StateManager {
             .filter(x => x !== "last-save");
         return saves;
     }
+    removeSave(name) {
+        localStorage.removeItem(name);
+        const otherSaves = Object.keys(localStorage).filter(x => x !== 'last-save');
+        if (otherSaves.length == 0) {
+            this.saveKey = "default";
+        } else {
+            this.saveKey = otherSaves[0];
+        }
+        this.saveLastSave(this.saveKey);
+        this.state = this.loadState();
+        return this.saveKey;
+    }
 }
 
     window.StateManager = StateManager;

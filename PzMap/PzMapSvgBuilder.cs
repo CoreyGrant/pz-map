@@ -31,6 +31,7 @@ namespace PzMap
             var svgWriter = new SvgWriter();
             var metadataDict = _pzMapRoomReader.AssignBuildingTypesFromLotHeaders(drawingLayers.BuildingLayer);
 
+            svgWriter.AddStyleOptions();
             AddToSvg(drawingLayers.WaterLayer, svgWriter); 
             AddToSvg(drawingLayers.RailwayLayer, svgWriter); 
             AddToSvg(drawingLayers.RoadLayer, svgWriter);
@@ -114,25 +115,5 @@ namespace PzMap
             }
             return (fill, stroke);
         }
-
-        private readonly Dictionary<string, Color> TypeColours = new Dictionary<string, Color>
-        {
-            ["highway_trail"] = Color.Orange,
-            ["highway_tertiary"] = Color.Red,
-            ["highway_secondary"] = Color.Green,
-            ["highway_primary"] = Color.Blue,
-            ["building_RetailAndCommercial"] = Color.FromArgb(184, 205, 84),
-            ["building_yes"] = Color.FromArgb(225, 176, 126),
-            ["building_Industrial"] = Color.FromArgb(56, 55, 53),
-            ["building_RestaurantsAndEntertainment"] = Color.FromArgb(245, 225, 60),
-            ["building_CommunityServices"] = Color.FromArgb(140, 118, 235),
-            ["building_Medical"] = Color.FromArgb(229, 129, 151),
-            ["building_Hospitality"] = Color.FromArgb(128, 206, 225),
-            ["water_river"] = Color.Turquoise,
-            ["driveway_gravel"] = Color.FromArgb(118, 118, 114),
-            ["natural_forest"] = Color.LightGreen,
-            ["natural_wood"] = Color.PaleGreen,
-            ["railway_*"] = Color.Gold
-        };
     }
 }

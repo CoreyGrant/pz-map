@@ -21,15 +21,15 @@
                 <p id="pop-over-name"></p>
                 <div id="pop-over-checkboxes">
                     <div id="pop-over-survivor">
-                        <label for="pop-over-survivor-input">Survivor</label>
+                        <label for="pop-over-survivor-input"><span style="text-decoration: underline">S</span>urvivor</label>
                         <input type="checkbox" id="pop-over-survivor-input" />
                     </div>
                     <div id="pop-over-looted">
-                        <label for="pop-over-looted-input">Looted</label>
+                        <label for="pop-over-looted-input"><span style="text-decoration: underline">L</span>ooted</label>
                         <input type="checkbox" id="pop-over-looted-input" />
                     </div>
                     <div id="pop-over-base">
-                        <label for="pop-over-base-input">Base</label>
+                        <label for="pop-over-base-input"><span style="text-decoration: underline">B</span>ase</label>
                         <input type="checkbox" id="pop-over-base-input" />
                     </div>
                 </div>
@@ -43,14 +43,18 @@
             </div>
             <fieldset id="save-manager">
                 <legend>Save</legend>
-                <select id="save-manager-select"></select>
+                <div style="display: flex;">
+                    <select id="save-manager-select"></select>
+                    <div id="save-manager-show-new">
+                        <button id="save-manager-show-new-add">Add</button>
+                        <button id="save-manager-show-new-remove">Remove</button>
+                    </div>
+                </div>
                 <div id="save-manager-new" style="display: none;">
                     <label>Name</label>
                     <input type="text" />
-                    <button>Save</button>
-                </div>
-                <div id="save-manager-show-new">
-                    <button>Add</button>
+                    <button id="save-manager-new-save">Save</button>
+                    <button id="save-manager-new-cancel">Cancel</button>
                 </div>
             </fieldset>
             <fieldset id="toolbar">

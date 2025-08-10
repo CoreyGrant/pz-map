@@ -43,6 +43,11 @@ namespace PzMap.Utilities
             AddPolygon(polygon);
         }
 
+        public void AddStyleOptions()
+        {
+            _sb.AppendLine("<pattern id=\"diagonalHatch\" patternUnits=\"userSpaceOnUse\" width=\"4\" height=\"4\">\r\n  <path d=\"M-1,1 l2,-2\r\n           M0,4 l4,-4\r\n           M3,5 l2,-2\" \r\n        style=\"stroke:black; stroke-width:1\" />\r\n</pattern>");
+        }
+
         public string ToString()
         {
             return $@"<svg style=""background-color: rgb(216, 211, 185)"">

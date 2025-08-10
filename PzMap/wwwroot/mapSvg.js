@@ -34,7 +34,6 @@
 
         zoomIn() {
             this.zoom = Math.min(this.zoom + 1, this.zoomLevels.length - 1);
-            console.log(this.zoom);
             this.updateViewbox();
         }
 
@@ -143,12 +142,17 @@
 
         mousedown;
         mousedownPosLast;
+        pinchZoomStart;
+        lastPinchZoom;
         // need to scale mousemoves based on zoom level
         // svg has a certain dimension, can work out svg pixels to screen pixels
         // then make modifications based on reverse mapping
         initMouseControls() {
             
             this.svg.addEventListener("wheel", (ev) => {
+                var scaledPos = this.scaleScreenToSvgAbsolute({ x: ev.clientX, y: ev.clientY });
+                this.centreX = scaledPos.x;
+                this.centreY = scaledPos.y;
                 if (ev.deltaY > 0) {
                     this.zoomOut();
                 } else {
@@ -165,7 +169,7 @@
                 if (this.mousedown && this.mousedownPosLast) {
                     const currentPos = { x: ev.clientX, y: ev.clientY };
                     const baseDiff = {
-                        x: this.mousedownPosLast.x - currentPos.x,
+                        x: (this.mousedownPosLast.x - currentPos.x) * 1.58,
                         y: this.mousedownPosLast.y - currentPos.y
                     }
                     if (Math.sqrt(baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y) < 3) {
@@ -185,35 +189,58 @@
 
             this.svg.addEventListener("touchstart", (ev) => {
                 this.mousedown = true;
-                var touch = ev.touches[0];
-                this.mousedownPosLast = { x: touch.clientX, y: touch.clientY };
+                if (ev.touches.length == 1) {
+                    var touch = ev.touches[0];
+                    this.mousedownPosLast = { x: touch.clientX, y: touch.clientY };
+                } else if (ev.touches.length == 2) {
+                    this.pinchZoomStart = ev.touches.map(x => ({ x: x.clientX, y: x.clientY }));
+                }
             });
             this.svg.addEventListener("touchmove", (ev) => {
                 if (this.mousedown && this.mousedownPosLast) {
-                    var touch = ev.touches[0];
-                    const currentPos = { x: touch.clientX, y: touch.clientY };
-                    const baseDiff = {
-                        x: this.mousedownPosLast.x - currentPos.x,
-                        y: this.mousedownPosLast.y - currentPos.y
+                    if (ev.touches.length == 1) {
+                        var touch = ev.touches[0];
+                        const currentPos = { x: touch.clientX, y: touch.clientY };
+                        const baseDiff = {
+                            x: (this.mousedownPosLast.x - currentPos.x) * 1.58,
+                            y: this.mousedownPosLast.y - currentPos.y
+                        }
+                        if (Math.sqrt(baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y) < 3) {
+                            return;
+                        }
+                        const diff = this.scaleScreenToSvg(baseDiff);
+                        this.centreX += (diff.x);
+                        this.centreY += (diff.y);
+                        this.updateViewbox();
+                        this.mousedownPosLast = currentPos;
+                    } else if (ev.touches.length == 2) {
+                        this.lastPinchZoom = ev.touches.map(x => ({ x: x.clientX, y: x.clientY }));
                     }
-                    if (Math.sqrt(baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y) < 3) {
-                        return;
-                    }
-                    const diff = this.scaleScreenToSvg(baseDiff);
-                    this.centreX += (diff.x);
-                    this.centreY += (diff.y);
-                    this.updateViewbox();
-                    this.mousedownPosLast = currentPos;
                 }
             });
             document.addEventListener("touchend", (ev) => {
                 this.mousedown = false;
                 this.mousedownPosLast = undefined;
+                if (this.pinchZoomStart && this.lastPinchZoom) {
+                    const start1 = this.pinchZoomStart[0];
+                    const start2 = this.pinchZoomStart[1];
+                    const startXDiff = start1.x - start2.x;
+                    const startYDiff = start1.y - start2.y;
+                    const startDistance = startXDiff * startXDiff + startYDiff * startYDiff;
+
+                    const end1 = this.lastPinchZoom[0];
+                    const end2 = this.lastPinchZoom[1];
+                    const endXDiff = end1.x - end2.x;
+                    const endYDiff = end1.y - end2.y;
+                    const endDistance = endXDiff * endXDiff + endYDiff * endYDiff;
+
+                    if (startDistance > endDistance) { this.zoomIn(); }
+                    if (startDistance < endDistance) { this.zoomOut(); }
+
+                    this.pinchZoomStart = undefined;
+                    this.lastPinchZoom = undefined;
+                }
             });
-            //this.svg.addEventListener("mouseout", (ev) => {
-            //    this.mousedown = false;
-            //    this.mousedownPosLast = undefined;
-            //})
         }
 
         scaleScreenToSvg({x, y}) {
@@ -231,8 +258,8 @@
             var centreX = this.centreX - width / 2;
             var centreY = this.centreY - height / 2;
             return {
-                x: (centreX + scaled.x).toFixed(0),
-                y: (centreY + scaled.y).toFixed(0)
+                x: +(centreX + scaled.x).toFixed(0),
+                y: +(centreY + scaled.y).toFixed(0)
             };
         }
     }

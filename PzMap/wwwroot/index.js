@@ -28,6 +28,7 @@
     }
     const mapSvg = new window.MapSvg(svg, mapConfig);
     const saveManagerChange = (oldState) => {
+        console.log(oldState, stateManager.state);
         Object.keys(oldState).forEach(id => updatePolygon(id, true));
         Object.keys(stateManager.state).forEach(id => updatePolygon(id));
     }
@@ -99,6 +100,7 @@
             const polygon = document.getElementById(id);
             polygon.setAttribute("stroke", "rgb(0,0,0)");
             polygon.setAttribute("stroke-dasharray", "none");
+            polygon.setAttribute("stroke-width", "1");
             return;
         }
         const stateItem = stateManager.state[id];
@@ -124,23 +126,28 @@
         }
         const polygon = document.getElementById(id);
         if (stateItem.looted) {
-            polygon.setAttribute("stroke-dasharray", "5,5,5");
+            polygon.setAttribute("stroke-dasharray", "2");
         } else {
             polygon.setAttribute("stroke-dasharray", "none");
         }
         if (stateItem.survivor) {
             polygon.setAttribute("stroke", "rgb(125,0,0)");
+            polygon.setAttribute("stroke-width", "2");
         } else {
             polygon.setAttribute("stroke", "rgb(0,0,0)");
+            polygon.setAttribute("stroke-width", "2");
         }
         if (stateItem.base) {
             polygon.setAttribute("stroke", "rgb(0,125,0)");
             polygon.setAttribute("stroke-dasharray", "none");
+            polygon.setAttribute("stroke-width", "2");
         } else {
             if (stateItem.survivor) {
                 polygon.setAttribute("stroke", "rgb(125,0,0)");
+                polygon.setAttribute("stroke-width", "2");
             } else {
                 polygon.setAttribute("stroke", "rgb(0,0,0)");
+                polygon.setAttribute("stroke-width", "1");
             }
         }
         
