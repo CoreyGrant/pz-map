@@ -26,8 +26,10 @@
         zoom;
         centreX;
         centreY;
+        pt;
         constructor(svg, mapConfig) {
             this.svg = svg;
+            this.pt = svg.createSVGPoint();
             this.mapConfig = mapConfig;
             this.initFromConfig(mapConfig);
             this.loadQuery();
@@ -68,21 +70,21 @@
             var zoomModifier = this.zoomLevels[this.zoom];
             this.viewboxWidth = +(this.mapConfig.width / zoomModifier).toFixed();
             this.viewboxHeight = +(this.mapConfig.height / zoomModifier).toFixed();
-            this.viewboxX = +(this.centreX - this.viewboxWidth / 2).toFixed();
+            this.viewboxX = +(this.centreX - this.viewboxWidth / 2 ).toFixed();
             this.viewboxY = +(this.centreY - this.viewboxHeight / 2).toFixed();
             return `${this.viewboxX} ${this.viewboxY} ${this.viewboxWidth} ${this.viewboxHeight}`;
         }
 
         initFromConfig(mapConfig) {
-            this.centreX = +mapConfig.width * 3/4;
-            this.centreY = +mapConfig.height * 3/4;
             this.zoom = mapConfig.initialZoom;
-
             let zoomLevels = mapConfig.zoomLevels;
             if (mapConfig.zoomFunction) {
                 zoomLevels = zoomLevels.map(mapConfig.zoomFunction);
             }
             this.zoomLevels = zoomLevels;
+            var zoomModifier = this.zoomLevels[this.zoom];
+            this.centreX = this.mapConfig.width / zoomModifier;
+            this.centreY = this.mapConfig.height / zoomModifier;
 
             const controls = mapConfig.controls || {};
 
@@ -203,6 +205,7 @@
                     this.mousedownPosLast = { x: touch.clientX, y: touch.clientY };
                 } else if (ev.touches.length == 2) {
                     this.pinchZoomStart = ev.touches.map(x => ({ x: x.clientX, y: x.clientY }));
+                    ev.preventDefault();
                 }
             });
             this.svg.addEventListener("touchmove", (ev) => {
@@ -255,23 +258,20 @@
         }
 
         scaleScreenToSvg({ x, y }, panning) {
-            if (panning) {
-                const scaleFactor = Math.min(this.svg.clientWidth, this.svg.clientHeight);
-                var scaleX = this.viewboxWidth / scaleFactor;
-                var scaleY = this.viewboxHeight / scaleFactor;
-                return { x: scaleX * x, y: scaleY * y };
-            }
-            var scaleX = this.viewboxWidth / this.svg.clientWidth;
-            var scaleY = this.viewboxHeight / this.svg.clientHeight;
-            return { x: scaleX * x, y: scaleY * y };
+            const abs = this.scaleScreenToSvgAbsolute({ x, y });
+            this.pt.x = 0;
+            this.pt.y = 0;
+            const topLeft = this.pt.matrixTransform(this.svg.getScreenCTM().inverse());
+            return {
+                x: abs.x - topLeft.x,
+                y: abs.y - topLeft.y
+            };
         }
 
         scaleScreenToSvgAbsolute({ x, y }) {
-            var scaled = this.scaleScreenToSvg({ x, y });
-            return {
-                x: +(this.viewboxX + scaled.x).toFixed(0),
-                y: +(this.viewboxY + scaled.y).toFixed(0)
-            };
+            this.pt.x = x;
+            this.pt.y = y;
+            return this.pt.matrixTransform(this.svg.getScreenCTM().inverse());
         }
 
         loadQuery() {

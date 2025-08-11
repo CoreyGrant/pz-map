@@ -13,31 +13,37 @@ namespace PzMap.Utilities
     public class SvgWriter
     {
         private StringBuilder _sb;
-        public SvgWriter()
+        private readonly ImageDimensions _imageDimensions;
+
+        public SvgWriter(ImageDimensions imageDimensions)
         {
             _sb = new StringBuilder();
+            _imageDimensions = imageDimensions;
         }
 
         public void AddPolygon(IEnumerable<Vector2> points, string type, string key, string id, (Color?, Color?) color, string? name, int floors)
         {
+            points = points.Select(x => new Vector2
+            {
+                X = x.X + _imageDimensions.XOffset,
+                Y = x.Y + _imageDimensions.YOffset,
+            });
             AddPolygon(new SvgPolygon(points, type, key, id, color) { Name = name, Floors = floors });
         }
 
-        public void AddPolygon(SvgPolygon polygon)
+        private void AddPolygon(SvgPolygon polygon)
         {
             _sb.AppendLine(polygon.ToString());
         }
 
-        public void AddBounding(ImageDimensions imageDimensions)
+        public void AddBounding()
         {
-            var offsetX = -imageDimensions.XOffset;
-            var offsetY = -imageDimensions.YOffset;
             var points = new List<Vector2>
             {
-                new Vector2{X = offsetX, Y = offsetY},
-                new Vector2{X = offsetX, Y = imageDimensions.Height + offsetY},
-                new Vector2{X = imageDimensions.Width + offsetX, Y = imageDimensions.Height + offsetY},
-                new Vector2{X = imageDimensions.Width + offsetX, Y = offsetY}
+                new Vector2{X = 0, Y = 0},
+                new Vector2{X = 0, Y = _imageDimensions.Height},
+                new Vector2{X = _imageDimensions.Width, Y = _imageDimensions.Height},
+                new Vector2{X = _imageDimensions.Width, Y = 0}
             };
             var polygon = new SvgPolygon(points, "", "", "bounding-box", (null, Color.Black)) { StrokeWidth = 10 };
             AddPolygon(polygon);
@@ -50,7 +56,7 @@ namespace PzMap.Utilities
 
         public string ToString()
         {
-            return $@"<svg style=""background-color: rgb(216, 211, 185)"">
+            return $@"<svg style=""background-color: rgb(216, 211, 185)"" preserveAspectRatio=""xMidYMid"">
     {_sb.ToString()}
 </svg>";
         }

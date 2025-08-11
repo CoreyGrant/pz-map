@@ -3,8 +3,14 @@
         return Object.assign({
             orientation: "horizontal",
             fontSize: "200px",
-            color: "rgba(0,0,0, 0.5)"
-        }, obj);
+            color: "rgba(0,0,0, 0.5)",
+        }, obj, {
+            // apply offset to zero out the top right
+            location: {
+                x: obj.location.x - 3000,
+                y: obj.location.y - 900
+            }
+        });
     }
     function townName(obj) {
         return Object.assign({
@@ -15,7 +21,7 @@
     }
     const annotations = [
         cityName({
-            location: { x: 9500, y: 9180 },
+            location: { x: 9500 , y: 9180 },
             text: "Muldraugh",
         }),
         cityName({

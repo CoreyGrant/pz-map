@@ -14,3 +14,5 @@ Building types derived from rooms - too many false positives
 -- Option to delete saves
 Show number of floors per building
 -- Scroll wheel zoom should centre on the location of the mouse pointer
+Zero the top right of the svg
+Better saving, with a single localstorage value

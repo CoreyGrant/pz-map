@@ -28,7 +28,7 @@ namespace PzMap
         {
             var drawingLayers = _gameDataReader.ReadGameData();
             var imageDimensions = GetImageDimensions(drawingLayers);
-            var svgWriter = new SvgWriter();
+            var svgWriter = new SvgWriter(imageDimensions);
             var metadataDict = _pzMapRoomReader.AssignBuildingTypesFromLotHeaders(drawingLayers.BuildingLayer);
 
             svgWriter.AddStyleOptions();
@@ -36,7 +36,7 @@ namespace PzMap
             AddToSvg(drawingLayers.RailwayLayer, svgWriter); 
             AddToSvg(drawingLayers.RoadLayer, svgWriter);
             AddToSvg(drawingLayers.BuildingLayer, svgWriter);
-            svgWriter.AddBounding(imageDimensions);
+            svgWriter.AddBounding();
 
             var metadata = JsonConvert.SerializeObject(metadataDict);
 
