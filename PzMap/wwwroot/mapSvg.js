@@ -12,7 +12,13 @@
             buttons: true
         }
     }
-
+    function debounce(func, timeout = 300) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        };
+    }
     class MapSvg {
         svg;
         mapConfig;
@@ -40,7 +46,7 @@
 
         updateViewbox(leaveState) {
             if (!leaveState) {
-                this.updateQuery();
+                this.debouncedUpdateQuery();
             }
             const viewBox = this.calculateViewbox();
             this.svg.setAttribute(
@@ -203,7 +209,7 @@
                         const currentPos = { x: touch.clientX, y: touch.clientY };
                         const baseDiff = {
                             x: (this.mousedownPosLast.x - currentPos.x)/* * 1.58*/,
-                            y: this.mousedownPosLast.y - currentPos.y
+                            y: this.mousedownPosLast.y - currentPos.y * 1.58
                         }
                         if (baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y < 9) {
                             return;
@@ -291,7 +297,7 @@
                 this.updateViewbox(true);
             }
         }
-
+        debouncedUpdateQuery = debounce.bind(this)(this.updateQuery);
         updateQuery() {
             const newState = `?centreX=${this.centreX.toFixed(0)}&centreY=${this.centreY.toFixed(0)}&zoom=${this.zoom}`;
             window.history.replaceState(null, "", window.location.pathname + newState);
