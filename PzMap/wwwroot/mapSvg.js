@@ -206,7 +206,7 @@
                 }
             });
             this.svg.addEventListener("touchmove", (ev) => {
-                if (this.mousedown && this.mousedownPosLast) {
+                if (this.mousedown) {
                     if (ev.touches.length == 1) {
                         var touch = ev.touches[0];
                         const currentPos = { x: touch.clientX, y: touch.clientY };
