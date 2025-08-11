@@ -60,14 +60,17 @@
             this.centreY += (y * 2000) / zoomModifier;
             this.updateViewbox();
         }
-
+        viewboxX;
+        viewboxY;
+        viewboxWidth;
+        viewboxHeight;
         calculateViewbox() {
             var zoomModifier = this.zoomLevels[this.zoom];
-            var width = this.mapConfig.width / zoomModifier;
-            var height = this.mapConfig.height / zoomModifier;
-            var x = this.centreX - width / 2;
-            var y = this.centreY - height / 2;
-            return `${x.toFixed(0)} ${y.toFixed(0)} ${width.toFixed(0)} ${height.toFixed(0)}`;
+            this.viewboxWidth = +(this.mapConfig.width / zoomModifier).toFixed();
+            this.viewboxHeight = +(this.mapConfig.height / zoomModifier).toFixed();
+            this.viewboxX = +(this.centreX - this.viewboxWidth / 2).toFixed();
+            this.viewboxY = +(this.centreY - this.viewboxHeight / 2).toFixed();
+            return `${this.viewboxX} ${this.viewboxY} ${this.viewboxWidth} ${this.viewboxHeight}`;
         }
 
         initFromConfig(mapConfig) {
@@ -175,7 +178,7 @@
                 if (this.mousedown && this.mousedownPosLast) {
                     const currentPos = { x: ev.clientX, y: ev.clientY };
                     const baseDiff = {
-                        x: (this.mousedownPosLast.x - currentPos.x) * 1.58,
+                        x: this.mousedownPosLast.x - currentPos.x,
                         y: this.mousedownPosLast.y - currentPos.y
                     }
                     if (baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y < 9) {
@@ -208,8 +211,8 @@
                         var touch = ev.touches[0];
                         const currentPos = { x: touch.clientX, y: touch.clientY };
                         const baseDiff = {
-                            x: (this.mousedownPosLast.x - currentPos.x)/* * 1.58*/,
-                            y: this.mousedownPosLast.y - currentPos.y * 1.58
+                            x: this.mousedownPosLast.x - currentPos.x,
+                            y: this.mousedownPosLast.y - currentPos.y
                         }
                         if (baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y < 9) {
                             return;
@@ -249,23 +252,17 @@
             });
         }
 
-        scaleScreenToSvg({x, y}) {
-            var zoomModifier = this.zoomLevels[this.zoom];
-            var scaleX = (this.mapConfig.width / zoomModifier) / this.svg.clientWidth;
-            var scaleY = (this.mapConfig.height / zoomModifier) / this.svg.clientHeight;
+        scaleScreenToSvg({ x, y }) {
+            var scaleX = this.viewboxWidth / this.svg.clientWidth;
+            var scaleY = this.viewboxHeight / this.svg.clientHeight;
             return { x: scaleX * x, y: scaleY * y };
         }
 
         scaleScreenToSvgAbsolute({ x, y }) {
             var scaled = this.scaleScreenToSvg({ x, y });
-            var zoomModifier = this.zoomLevels[this.zoom];
-            var width = this.mapConfig.width / zoomModifier;
-            var height = this.mapConfig.height / zoomModifier;
-            var centreX = this.centreX - width / 2;
-            var centreY = this.centreY - height / 2;
             return {
-                x: +(centreX + scaled.x).toFixed(0),
-                y: +(centreY + scaled.y).toFixed(0)
+                x: +(this.viewboxX + scaled.x).toFixed(0),
+                y: +(this.viewboxY + scaled.y).toFixed(0)
             };
         }
 

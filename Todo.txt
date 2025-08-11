@@ -1,5 +1,8 @@
 Fix mobile touch scrolling issues
 Mobile pinch-to-zoom
+Fix all scrolling/positioning issues
+	When width > height scrolling left/right is less than mouse move
+	When width < height scrolling up/down is less than mouse move
 -- Fix location of text added via toolbar
 Add more options for icons to add via toolbar
 Collapsing menus for mobile
