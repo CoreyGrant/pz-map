@@ -184,7 +184,7 @@
                     if (baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y < 9) {
                         return;
                     } 
-                    const diff = this.scaleScreenToSvg(baseDiff);
+                    const diff = this.scaleScreenToSvg(baseDiff, true);
                     this.centreX += (diff.x);
                     this.centreY += (diff.y);
                     this.updateViewbox();
@@ -217,7 +217,7 @@
                         if (baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y < 9) {
                             return;
                         }
-                        const diff = this.scaleScreenToSvg(baseDiff);
+                        const diff = this.scaleScreenToSvg(baseDiff, true);
                         this.centreX += (diff.x);
                         this.centreY += (diff.y);
                         this.updateViewbox();
@@ -252,7 +252,13 @@
             });
         }
 
-        scaleScreenToSvg({ x, y }) {
+        scaleScreenToSvg({ x, y }, panning) {
+            if (panning) {
+                const scaleFactor = Math.min(this.svg.clientWidth, this.svg.clientHeight);
+                var scaleX = this.viewboxWidth / scaleFactor;
+                var scaleY = this.viewboxHeight / scaleFactor;
+                return { x: scaleX * x, y: scaleY * y };
+            }
             var scaleX = this.viewboxWidth / this.svg.clientWidth;
             var scaleY = this.viewboxHeight / this.svg.clientHeight;
             return { x: scaleX * x, y: scaleY * y };
