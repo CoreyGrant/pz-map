@@ -85,7 +85,7 @@ option{
     justify-content: space-between;
     flex-wrap: wrap;
     overflow-y: auto;
-    max-height: 150px;
+    max-height: 120px;
     margin-top: 8px;
     padding: 8px;
 }

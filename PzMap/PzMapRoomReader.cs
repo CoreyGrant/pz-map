@@ -47,17 +47,18 @@ namespace PzMap
                 mappedRooms.AddRange(header.Rooms.Select(x => new PzMapRoom
                 {
                     Name = x.Name,
-                    Rectangles = x.Rectangles.Select(x => new PzMapRoomRectangle
+                    Floor = x.Level,
+                    Rectangles = x.Rectangles.Select(r => new PzMapRoomRectangle
                     {
-                        X = x.X + header.CellX * _cellWidth,
-                        Y = x.Y + header.CellY * _cellHeight,
-                        Width = x.Width,
-                        Height = x.Height,
+                        X = r.X + header.CellX * _cellWidth,
+                        Y = r.Y + header.CellY * _cellHeight,
+                        Width = r.Width,
+                        Height = r.Height,
                         Midpoint = new System.Numerics.Vector2
                         {
-                            X = x.X + header.CellX * _cellWidth + ((float)x.Width)/2,
-                            Y = x.Y + header.CellY * _cellHeight + ((float)x.Height)/2,
-                        }
+                            X = r.X + header.CellX * _cellWidth + ((float)r.Width)/2,
+                            Y = r.Y + header.CellY * _cellHeight + ((float)r.Height)/2,
+                        },
                     }).ToList()
                 }));
             }
@@ -86,6 +87,7 @@ namespace PzMap
                 var maxY = segment.Points.Select(x => x.Y).Max();
                 var minY = segment.Points.Select(x => x.Y).Min();
                 List<string> matchingRooms = new List<string>();
+                var maxFloor = 0;
                 foreach(var room in rooms)
                 {
                     var isInBuilding = room.Rectangles.All(x =>
@@ -98,11 +100,13 @@ namespace PzMap
                     if (isInBuilding)
                     {
                         matchingRooms.Add(room.Name);
+                        maxFloor = Math.Max(maxFloor, room.Floor + 1);
                     }
                 }
                 var segmentRooms = matchingRooms.Distinct().Order().ToList();
                 metadataRooms[segment.Id] = segmentRooms;
                 segment.Name = GetName(segmentRooms);
+                segment.Floors = maxFloor;
             }
             var lotHeaderNames = rooms.Select(x => x.Name).Distinct();
             var names = new List<string>();
@@ -147,6 +151,7 @@ namespace PzMap
     public class PzMapRoom
     {
         public string Name { get; set; }
+        public int Floor { get; set; }
         public List<PzMapRoomRectangle> Rectangles { get; set; }
     }
 

@@ -26,9 +26,11 @@
         height: 100px;
     }
 
+    
+
     #pop-over-rooms {
         margin-top: 4px;
-        max-height: 100px;
+        max-height: 80px;
         padding: 4px;
     }
 
@@ -140,7 +142,7 @@
         margin: 2px;
         border: 1px solid black;
         border-radius: 2px;
-        font-size: 9px;
+        font-size: 8px;
     }
 
     input[type="checkbox"] {

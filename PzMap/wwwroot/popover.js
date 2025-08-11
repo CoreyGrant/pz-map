@@ -123,8 +123,9 @@
             else {
                 typeName = buildingType.replace(/([a-z])([A-Z])/g, '$1 $2')
             }
-            
-            return typeName;
+            const buildingFloors = +building.getAttribute("floors");
+            const floorsString = buildingFloors == 1 ? "floor" : "floors"
+            return typeName + ` (${buildingFloors} ${floorsString})`;
         }
     }
 

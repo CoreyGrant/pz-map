@@ -13,6 +13,7 @@ namespace PzMap.Types
         public string Type { get; set; }
         public string Key { get; set; }
         public string Id { get; set; }
+        public int Floors { get; set; }
 
         public string? Name { get; set; }
     }

@@ -18,9 +18,9 @@ namespace PzMap.Utilities
             _sb = new StringBuilder();
         }
 
-        public void AddPolygon(IEnumerable<Vector2> points, string type, string key, string id, (Color?, Color?) color, string? name)
+        public void AddPolygon(IEnumerable<Vector2> points, string type, string key, string id, (Color?, Color?) color, string? name, int floors)
         {
-            AddPolygon(new SvgPolygon(points, type, key, id, color) { Name = name });
+            AddPolygon(new SvgPolygon(points, type, key, id, color) { Name = name, Floors = floors });
         }
 
         public void AddPolygon(SvgPolygon polygon)
@@ -64,6 +64,7 @@ namespace PzMap.Utilities
         public string Id { get; }
         public (Color?, Color?) Color { get; }
         public string Name { get; set; }
+        public int Floors { get; set; }
         public int StrokeWidth { get; set; } = 1;
         public SvgPolygon(IEnumerable<Vector2> points, string type, string key, string id, (Color?, Color?) color)
         {
@@ -87,6 +88,7 @@ namespace PzMap.Utilities
     type=""{Type}""
     key=""{Key}""
     name=""{Name}""
+    floors=""{Floors}""
     midpoint-x=""{midPointX}""
     midpoint-y=""{midPointY}""
     fill=""{ColorToString(fill)}""
