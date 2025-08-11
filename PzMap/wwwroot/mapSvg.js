@@ -222,8 +222,10 @@
                         this.centreY += (diff.y);
                         this.updateViewbox();
                         this.mousedownPosLast = currentPos;
+                        ev.preventDefault();
                     } else if (ev.touches.length == 2) {
                         this.lastPinchZoom = ev.touches.map(x => ({ x: x.clientX, y: x.clientY }));
+                        ev.preventDefault();
                     }
                 }
             });
