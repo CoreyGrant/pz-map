@@ -44,6 +44,9 @@
     <None Update="wwwroot\stateManager.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="wwwroot\textAnnotater.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="wwwroot\toolbar.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

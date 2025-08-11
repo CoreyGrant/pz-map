@@ -73,7 +73,6 @@ namespace PzMap
 
             var metadataRooms = new Dictionary<string, object>();
             buildingTypeMetadata["rooms"] = metadataRooms;
-            Console.WriteLine("Calculating metadata " + buildingSegments.Count);
             var i = 0;
             foreach(var segment in buildingSegments)
             {
@@ -101,9 +100,9 @@ namespace PzMap
                         matchingRooms.Add(room.Name);
                     }
                 }
-                metadataRooms[segment.Id] = matchingRooms.Distinct().Order();
-                if(i % 100 == 0) { Console.WriteLine("Calculated " + i); }
-                i++;
+                var segmentRooms = matchingRooms.Distinct().Order().ToList();
+                metadataRooms[segment.Id] = segmentRooms;
+                segment.Name = GetName(segmentRooms);
             }
             var lotHeaderNames = rooms.Select(x => x.Name).Distinct();
             var names = new List<string>();
@@ -113,6 +112,35 @@ namespace PzMap
             }
             buildingTypeMetadata["roomNames"] = names.Order();
             return buildingTypeMetadata;
+        }
+
+        private string? GetName(List<string> rooms)
+        {
+            if(rooms.Any(x => x == "firestorage"))
+            {
+                return "Fire Station";
+            }
+            if(rooms.Any(x => x == "postoffice"))
+            {
+                return "Post Office";
+            }
+            if(rooms.Any(x => x == "loggingwarehouse"))
+            {
+                return "Logging Warehouse";
+            }
+            if(rooms.Any(x => x == "logginfactory"))
+            {
+                return "Logging Factory";
+            }
+            if(rooms.Any(x => x == "church"))
+            {
+                return "Church";
+            }
+            if(rooms.Any(x => x == "classroom"))
+            {
+                return "School";
+            }
+            return null;
         }
     }
 

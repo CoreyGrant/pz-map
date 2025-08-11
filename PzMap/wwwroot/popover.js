@@ -17,8 +17,10 @@
         metadata;
         id;
         onChange;
-        constructor(svg, stateManager, metadata, onChange) {
+        roomClick;
+        constructor(svg, stateManager, metadata, onChange, roomClick) {
             this.svg = svg;
+            this.roomClick = roomClick;
             this.popover = document.getElementById("pop-over");
             this.popoverDefault = document.getElementById("pop-over-default");
             this.popoverName = document.getElementById("pop-over-name");
@@ -71,6 +73,10 @@
                 const chip = document.createElement("div");
                 chip.className = "chip";
                 chip.innerHTML = room;
+                const roomOption = room;
+                chip.addEventListener('click', () => {
+                    this.roomClick(roomOption);
+                })
                 this.popoverRooms.appendChild(chip);
             }
             // calculate the on-screen position of the polygon
@@ -106,12 +112,19 @@
         getName(id) {
             const building = document.getElementById(id);
             const buildingType = building.getAttribute("type");
+            let typeName;
+            //const buildingName = building.getAttribute("name");
+            //if (buildingName && buildingName.length) {
+            //    return buildingName;
+            //}
             if (buildingType == "yes") {
-                return "Residential";
+                typeName = "Residential";
             }
             else {
-                return buildingType.replace(/([a-z])([A-Z])/g, '$1 $2')
+                typeName = buildingType.replace(/([a-z])([A-Z])/g, '$1 $2')
             }
+            
+            return typeName;
         }
     }
 

@@ -87,6 +87,7 @@ option{
     overflow-y: auto;
     max-height: 150px;
     margin-top: 8px;
+    padding: 8px;
 }
 
 .chip{
@@ -95,6 +96,7 @@ option{
     border: 1px solid black;
     border-radius: 4px;
     font-size: 10px;
+    cursor: pointer;
 }
 
 #pop-over-notes-container label {
@@ -201,7 +203,6 @@ input[type="checkbox"] {
     width: calc(100% - 16px);
     margin-left: 8px;
     margin-right: 8px;
-    display: none;
 }
 #toolbar > div{
     display: flex;

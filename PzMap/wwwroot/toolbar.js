@@ -32,7 +32,7 @@
             this.toolbarButton.addEventListener("click", () => {
                 this.toolbarTextValue = this.toolbarText.value;
                 if (!this.toolbarTextValue || !this.toolbarTextValue.length) {
-                    return;
+                    return; 
                 }
                 this.toolbarText.value = "";
                 this.svg.addEventListener('click', svgClick);

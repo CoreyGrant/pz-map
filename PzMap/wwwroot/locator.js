@@ -11,13 +11,20 @@
             this.svg = svg;
             this.rooms = metadata.rooms;
             this.roomNames = metadata.roomNames;
-
+            const roomAmounts = {};
+            const roomValues = Object.values(this.rooms);
+            for (var roomValue of roomValues) {
+                for (var room of roomValue) {
+                    if (!roomAmounts[room]) { roomAmounts[room] = 0 }
+                    roomAmounts[room]++;
+                }
+            }
             this.locator = document.getElementById("locator");
             this.locatorSelect = document.getElementById("locator-select");
             this.locatorButton = document.getElementById("locator-button");
             for (var roomName of this.roomNames) {
                 const option = document.createElement("option");
-                option.innerHTML = roomName;
+                option.innerHTML = roomName + " (" + roomAmounts[roomName] + ")";
                 option.value = roomName;
                 this.locatorSelect.appendChild(option);
             }
@@ -58,8 +65,13 @@
                     circles.forEach(x => x.remove());
                     return;
                 }
-                circles.forEach(x => x.setAttribute("r", 300 - showCounter*3));
+                const updatedCounter = 300 - showCounter * 3
+                circles.forEach(x => x.setAttribute("r", updatedCounter));
             }, 10);
+        }
+
+        selectOption(value) {
+            this.locatorSelect.value = value;
         }
     }
 

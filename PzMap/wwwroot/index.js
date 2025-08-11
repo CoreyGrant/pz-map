@@ -10,10 +10,10 @@
     const metadata = window.metadata;
     const info = window.info;
     Object.keys(stateManager.state).forEach(id => updatePolygon(id));
-    
-    const onChange = (id) => {
-        updatePolygon(id);
-    }
+
+    const locator = new Locator(svg, metadata);
+    const textAnnotater = new TextAnnotater(svg);
+
     const mapConfig = {
         width: info.mapWidth,
         height: info.mapHeight,
@@ -28,15 +28,21 @@
     }
     const mapSvg = new window.MapSvg(svg, mapConfig);
     const saveManagerChange = (oldState) => {
-        console.log(oldState, stateManager.state);
         Object.keys(oldState).forEach(id => updatePolygon(id, true));
         Object.keys(stateManager.state).forEach(id => updatePolygon(id));
     }
     const saveManager = new SaveManager(stateManager, saveManagerChange);
-    const popover = new Popover(svg, stateManager, metadata, onChange);
-    const locator = new Locator(svg, metadata);
+    const onChange = (id) => {
+        updatePolygon(id);
+    }
+    const roomClick = (room) => {
+        locator.selectOption(room);
+    }
+    const popover = new Popover(svg, stateManager, metadata, onChange, roomClick);
+
     const addToolbarItem = ({ text, location, color, size }) => {
         var scaled = mapSvg.scaleScreenToSvgAbsolute(location);
+        console.log({ location, scaled });
         var id = uid();
         //var sizeMod = +size.replace("px", "");
         //var xMod = text.length * sizeMod/3;
@@ -117,6 +123,8 @@
             textSvgElement.setAttribute("title", "Double-click to remove");
             textSvgElement.setAttribute("x", location.x);
             textSvgElement.setAttribute("y", location.y);
+            textSvgElement.setAttribute("dominant-baseline", "middle");
+            textSvgElement.setAttribute("text-anchor", "middle");
             svg.appendChild(textSvgElement);
             textSvgElement.addEventListener('dblclick', () => {
                 stateManager.removeStateItem(id);

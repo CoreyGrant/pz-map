@@ -1,8 +1,9 @@
 ﻿@media (max-width: 768px) {
     #sidebar{
         width: 150px;
-        right: 0;
-        height: 90%;
+        right: 2px;
+        top: 2px;
+        height: 95%;
     }
 
     #pop-over, #pop-over-default{
@@ -28,6 +29,7 @@
     #pop-over-rooms {
         margin-top: 4px;
         max-height: 100px;
+        padding: 4px;
     }
 
     #pop-over-notes-container label {
@@ -94,6 +96,10 @@
         width: 80px;
     }
 
+    #save-manager-new-container{
+        flex-direction: column;
+    }
+
     #save-manager-new button {
         width: 40px;
     }
@@ -123,7 +129,7 @@
         flex-direction: column;
     }
     #locator-select{
-        width: 100px;
+        width: 100%;
         margin: 0;
     }
     #locator-button{

@@ -63,6 +63,10 @@ Action run = () =>
             new AssetReplacement{
                 FileName = "locator.js",
                 ReplacementText = "<script id=\"locator\"></script>"
+            },
+            new AssetReplacement{
+                FileName = "textAnnotater.js",
+                ReplacementText = "<script id=\"textAnnotater\"></script>"
             }
         ],
         [
@@ -89,6 +93,8 @@ run();
 
 var watcher = new FileSystemWatcher(Path.Combine(Directory.GetCurrentDirectory().Split("bin")[0], "wwwroot"));
 watcher.EnableRaisingEvents = true;
+watcher.NotifyFilter = NotifyFilters.LastWrite;
+watcher.Filter = "*.*";
 watcher.Changed += (Object o, FileSystemEventArgs e) =>
 {
     Console.WriteLine("Running with file changed:");

@@ -24,7 +24,8 @@
             this.svg = svg;
             this.mapConfig = mapConfig;
             this.initFromConfig(mapConfig);
-            this.updateViewbox();
+            this.loadQuery();
+            this.updateViewbox(true);
         }
 
         zoomOut() {
@@ -37,7 +38,10 @@
             this.updateViewbox();
         }
 
-        updateViewbox() {
+        updateViewbox(leaveState) {
+            if (!leaveState) {
+                this.updateQuery();
+            }
             const viewBox = this.calculateViewbox();
             this.svg.setAttribute(
                 "viewBox",
@@ -76,7 +80,6 @@
             if (controls.keys) { this.initKeyControls(); }
             if (controls.mouse) { this.initMouseControls(); }
             if (controls.buttons) { this.initButtonControls(); }
-            this.updateViewbox();
         }
 
         initButtonControls() {
@@ -144,9 +147,6 @@
         mousedownPosLast;
         pinchZoomStart;
         lastPinchZoom;
-        // need to scale mousemoves based on zoom level
-        // svg has a certain dimension, can work out svg pixels to screen pixels
-        // then make modifications based on reverse mapping
         initMouseControls() {
             
             this.svg.addEventListener("wheel", (ev) => {
@@ -172,7 +172,7 @@
                         x: (this.mousedownPosLast.x - currentPos.x) * 1.58,
                         y: this.mousedownPosLast.y - currentPos.y
                     }
-                    if (Math.sqrt(baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y) < 3) {
+                    if (baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y < 9) {
                         return;
                     } 
                     const diff = this.scaleScreenToSvg(baseDiff);
@@ -202,10 +202,10 @@
                         var touch = ev.touches[0];
                         const currentPos = { x: touch.clientX, y: touch.clientY };
                         const baseDiff = {
-                            x: (this.mousedownPosLast.x - currentPos.x) * 1.58,
+                            x: (this.mousedownPosLast.x - currentPos.x)/* * 1.58*/,
                             y: this.mousedownPosLast.y - currentPos.y
                         }
-                        if (Math.sqrt(baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y) < 3) {
+                        if (baseDiff.x * baseDiff.x + baseDiff.y * baseDiff.y < 9) {
                             return;
                         }
                         const diff = this.scaleScreenToSvg(baseDiff);
@@ -261,6 +261,40 @@
                 x: +(centreX + scaled.x).toFixed(0),
                 y: +(centreY + scaled.y).toFixed(0)
             };
+        }
+
+        loadQuery() {
+            const query = window.location.search;
+            const parts = query.substring(1).split("&");
+            let change = false;
+            for (const part of parts) {
+                const queryParts = part.split("=");
+                const name = queryParts[0].toLowerCase();
+                const value = queryParts[1];
+                if (name == "centrex") {
+                    this.centreX = +value;
+                    change = true;
+                } else if (name == "centrey") {
+                    this.centreY = +value;
+                    change = true;
+                } else if (name == "zoom") {
+                    let zoom = Math.floor(+value);
+                    if (zoom > this.zoomLevels.length - 1) {
+                        zoom = this.zoomLevels.length - 1;
+                    }
+                    if (zoom < 0) { zoom = 0; }
+                    this.zoom = zoom;
+                    change = true;
+                }
+            }
+            if (change) {
+                this.updateViewbox(true);
+            }
+        }
+
+        updateQuery() {
+            const newState = `?centreX=${this.centreX.toFixed(0)}&centreY=${this.centreY.toFixed(0)}&zoom=${this.zoom}`;
+            window.history.replaceState(null, "", window.location.pathname + newState);
         }
     }
 

@@ -1,12 +1,12 @@
 Fix mobile touch scrolling issues
 Mobile pinch-to-zoom
-Fix location of text added via toolbar
+-- Fix location of text added via toolbar
 Add more options for icons to add via toolbar
 Collapsing menus for mobile
 -- Better visibility of survivor/looted/base
-Option to list buildings by room types
-Town names written on map
-Building types derived from rooms
+Option to list buildings by room types - not needed?
+-- Town names written on map
+Building types derived from rooms - too many false positives
 -- Cancel option for adding saves
 -- Option to delete saves
 Show number of floors per building
