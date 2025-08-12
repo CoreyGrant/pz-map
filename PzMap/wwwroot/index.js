@@ -31,6 +31,7 @@
     const mapSvg = new window.MapSvg(svg, mapConfig);
     const locator = new Locator(svg, metadata, mapSvg);
     const saveManagerChange = (oldState) => {
+        popover.hide();
         Object.keys(oldState).forEach(id => updatePolygon(id, true));
         Object.keys(stateManager.state).forEach(id => updatePolygon(id));
     }
