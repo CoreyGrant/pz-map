@@ -33,6 +33,7 @@
         }
         showNew() {
             this.saveManagerNew.style.display = "initial";
+            this.saveSelect.style.display = "none";
             this.saveManagerShowNew.style.display = "none";
         }
         addNewSave() {
@@ -51,12 +52,14 @@
             this.stateManager.state = this.stateManager.loadState();
             this.setSelectOptions(inputValue);
             this.saveManagerNew.style.display = "none";
+            this.saveSelect.style.display = "initial";
             this.saveManagerShowNew.style.display = "initial";
             this.onChange(oldState);
         }
         cancel() {
             this.newSaveInput.value = "";
             this.saveManagerNew.style.display = "none";
+            this.saveSelect.style.display = "initial";
             this.saveManagerShowNew.style.display = "initial";
         }
         remove() {

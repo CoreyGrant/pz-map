@@ -7,7 +7,7 @@
     }
 
     #pop-over, #pop-over-default{
-        height: 45%;
+        height: 42%;
         padding: 4px;
     }
 
@@ -35,7 +35,7 @@
     }
 
     #pop-over-notes-container label {
-        font-size: 12px;
+        font-size: 10px;
     }
 
     #map-control {
@@ -89,13 +89,18 @@
         top: 100px;
     }
     #save-manager{
-        padding: 4px;
         margin-left: 4px;
         margin-right: 4px;
         flex-direction: column;
+        
+    }
+
+    #save-manager-new{
+        font-size: 12px;
     }
     #save-manager-new input {
-        width: 80px;
+        margin-left: 0;
+        width: 100%;
     }
 
     #save-manager-new-container{
@@ -103,7 +108,7 @@
     }
 
     #save-manager-new button {
-        width: 40px;
+        width: 48%;
     }
     #save-manager-select {
         min-width: 100px;
