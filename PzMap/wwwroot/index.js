@@ -159,7 +159,7 @@
     }
 
     // hacky reset behaviour
-    const saveManagerNewLabel = document.querySelector("#save-manager-new label")
+    const saveManagerNewLabel = document.querySelector("#save-manager legend")
     let tapCounter = 0;
     let timeout;
     saveManagerNewLabel.addEventListener('touchstart', function () {
@@ -168,6 +168,19 @@
         timeout = setTimeout(() => tapCounter = 0, 1000);
     });
     saveManagerNewLabel.addEventListener('touchend', function () {
+        if (tapCounter > 8) {
+            if (confirm("Delete all saved data?")) {
+                localStorage.clear();
+                window.location.reload();
+            }
+        }
+    });
+    saveManagerNewLabel.addEventListener('mousedown', function () {
+        tapCounter++;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => tapCounter = 0, 1000);
+    });
+    saveManagerNewLabel.addEventListener('mouseup', function () {
         if (tapCounter > 8) {
             if (confirm("Delete all saved data?")) {
                 localStorage.clear();
