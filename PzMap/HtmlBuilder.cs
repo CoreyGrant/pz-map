@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PzMap
@@ -10,51 +11,43 @@ namespace PzMap
     {
         private readonly string _assetFolder;
         private readonly string _htmlFilename;
-        private readonly IEnumerable<AssetReplacement> _assetReplacements;
-        private readonly IEnumerable<JsonReplacement> _jsonReplacements;
-        private readonly IEnumerable<TextReplacement> _textReplacements;
 
         public HtmlBuilder(
             string assetFolder,
-            string htmlFilename,
-            IEnumerable<AssetReplacement> assetReplacements,
-            IEnumerable<JsonReplacement> jsonReplacements,
-            IEnumerable<TextReplacement> textReplacements)
+            string htmlFilename)
         {
             _assetFolder = assetFolder;
             _htmlFilename = htmlFilename;
-            _assetReplacements = assetReplacements;
-            _jsonReplacements = jsonReplacements;
-            _textReplacements = textReplacements;
         }
+
+        private Regex FileRegex = new Regex("%([a-zA-Z-]+)\\.([a-z]+)%");
 
         public string PerformReplacements()
         {
             var indexHtmlPath = Path.Combine(_assetFolder, _htmlFilename);
             var indexHtml = File.ReadAllText(indexHtmlPath);
-            foreach(var replacement in _assetReplacements)
+            return FileRegex.Replace(indexHtml, (match) =>
             {
-                var assetPath = Path.Combine(_assetFolder, replacement.FileName);
-                var assetFile = File.ReadAllText(assetPath);
-                indexHtml = indexHtml.Replace(
-                    replacement.ReplacementText,
-                    $"<{replacement.Tag}>{assetFile}</{replacement.Tag}>");
-            }
-            foreach(var replacement in _jsonReplacements)
-            {
-                indexHtml = indexHtml.Replace(
-                    replacement.ReplacementText,
-                    @$"<script>
-window.{replacement.Name} = {replacement.Json}
-</script>");
-            }
-            foreach(var replacement in _textReplacements)
-            {
-                indexHtml = indexHtml.Replace(
-                    replacement.ReplacementText,
-                    replacement.Text);
-            }
-            return indexHtml;
+                var name = match.Groups[1].Value;
+                var ext = match.Groups[2].Value;
+                var itemPath = Path.Combine(_assetFolder, name + "." + ext);
+                var fileContents = File.ReadAllText(itemPath);
+                if(ext == "js")
+                {
+                    return $"<script>{fileContents}</script>";
+                } else if(ext == "css")
+                {
+                    return $"<style>{fileContents}</style>";
+                } else if(ext == "json")
+                {
+                    return $"<script>window.{name}={fileContents}</script>";
+                }
+                else
+                {
+                    return fileContents;
+                }
+                 
+            });
         }
 
         public void PerformAndSave(string outputPath)

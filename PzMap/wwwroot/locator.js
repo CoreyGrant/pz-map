@@ -7,8 +7,10 @@
         locator;
         locatorSelect;
         locatorButton;
-        constructor(svg, metadata) {
+        svgMap;
+        constructor(svg, metadata, svgMap) {
             this.svg = svg;
+            this.svgMap = svgMap;
             this.rooms = metadata.rooms;
             this.roomNames = metadata.roomNames;
             const roomAmounts = {};
@@ -47,27 +49,29 @@
                         y: +polygon.getAttribute("midpoint-y")
                     }
                 });
+            
+
             let circles = locations.map(x => {
                 var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
                 circle.setAttribute("cx", x.x);
                 circle.setAttribute("cy", x.y);
-                circle.setAttribute("r", 300);
+                circle.setAttribute("r", this.svgMap.zoomScale(300));
                 circle.setAttribute("fill", "rgba(0,255,0,0.4)");
                 circle.setAttribute("stroke", "green");
-                circle.setAttribute("stroke-width", "20");
+                circle.setAttribute("stroke-width", this.svgMap.zoomScale(20));
                 this.svg.appendChild(circle);
                 return circle;
             });
             const timeout = setInterval(() => {
                 showCounter++;
-                if (showCounter == 100) {
+                if (showCounter == 30) {
                     clearInterval(timeout);
                     circles.forEach(x => x.remove());
                     return;
                 }
-                const updatedCounter = 300 - showCounter * 3
+                const updatedCounter = this.svgMap.zoomScale(300 - showCounter * 10)
                 circles.forEach(x => x.setAttribute("r", updatedCounter));
-            }, 10);
+            }, 33);
         }
 
         selectOption(value) {

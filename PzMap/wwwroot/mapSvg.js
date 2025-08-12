@@ -58,8 +58,8 @@
 
         pan(x, y) {
             var zoomModifier = this.zoomLevels[this.zoom];
-            this.centreX += (x * 2000) / zoomModifier;
-            this.centreY += (y * 2000) / zoomModifier;
+            this.centreX += this.zoomScale(x * 2000);
+            this.centreY += this.zoomScale(y * 2000);
             this.updateViewbox();
         }
         viewboxX;
@@ -68,8 +68,8 @@
         viewboxHeight;
         calculateViewbox() {
             var zoomModifier = this.zoomLevels[this.zoom];
-            this.viewboxWidth = +(this.mapConfig.width / zoomModifier).toFixed();
-            this.viewboxHeight = +(this.mapConfig.height / zoomModifier).toFixed();
+            this.viewboxWidth = +this.zoomScale(this.mapConfig.width).toFixed();
+            this.viewboxHeight = +this.zoomScale(this.mapConfig.height).toFixed();
             this.viewboxX = +(this.centreX - this.viewboxWidth / 2 ).toFixed();
             this.viewboxY = +(this.centreY - this.viewboxHeight / 2).toFixed();
             return `${this.viewboxX} ${this.viewboxY} ${this.viewboxWidth} ${this.viewboxHeight}`;
@@ -82,9 +82,8 @@
                 zoomLevels = zoomLevels.map(mapConfig.zoomFunction);
             }
             this.zoomLevels = zoomLevels;
-            var zoomModifier = this.zoomLevels[this.zoom];
-            this.centreX = this.mapConfig.width / zoomModifier;
-            this.centreY = this.mapConfig.height / zoomModifier;
+            this.centreX = this.zoomScale(this.mapConfig.width);
+            this.centreY = this.zoomScale(this.mapConfig.height);
 
             const controls = mapConfig.controls || {};
 
@@ -306,6 +305,11 @@
         updateQuery() {
             const newState = `?centreX=${this.centreX.toFixed(0)}&centreY=${this.centreY.toFixed(0)}&zoom=${this.zoom}`;
             window.history.replaceState(null, "", window.location.pathname + newState);
+        }
+
+        zoomScale(val) {
+            const zoomModifier = this.zoomLevels[this.zoom];
+            return val / zoomModifier;
         }
     }
 

@@ -11,7 +11,7 @@
     const info = window.info;
     Object.keys(stateManager.state).forEach(id => updatePolygon(id));
 
-    const locator = new Locator(svg, metadata);
+    
     const textAnnotater = new TextAnnotater(svg);
 
     const mapConfig = {
@@ -27,6 +27,7 @@
         initialZoom: 1
     }
     const mapSvg = new window.MapSvg(svg, mapConfig);
+    const locator = new Locator(svg, metadata, mapSvg);
     const saveManagerChange = (oldState) => {
         Object.keys(oldState).forEach(id => updatePolygon(id, true));
         Object.keys(stateManager.state).forEach(id => updatePolygon(id));
@@ -42,11 +43,7 @@
 
     const addToolbarItem = ({ text, location, color, size }) => {
         var scaled = mapSvg.scaleScreenToSvgAbsolute(location);
-        console.log({ location, scaled });
         var id = uid();
-        //var sizeMod = +size.replace("px", "");
-        //var xMod = text.length * sizeMod/3;
-        //scaled.x -= xMod;
         stateManager.upsertStateItem(id, "text", text);
         stateManager.upsertStateItem(id, "location", scaled);
         stateManager.upsertStateItem(id, "size", size);
