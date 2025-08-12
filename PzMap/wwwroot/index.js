@@ -56,7 +56,7 @@
         updatePolygon(id);
     };
     const toolbar = new Toolbar(stateManager, svg, addToolbarItem);
-    const buildings = svg.querySelectorAll("polygon[key='building']")
+    const buildings = svg.querySelectorAll("polygon[k='building']")
 
     svg.addEventListener("click", function (e) {
         popover.hide();

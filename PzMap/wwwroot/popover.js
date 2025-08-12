@@ -61,6 +61,8 @@
             this.id = id;
 
             const metadataRooms = this.metadata.rooms[id];
+            const metadataRoomNames = Object.entries(this.metadata.roomNames)
+                .reduce((p, c) => ({...p, [c[1]]: c[0]}) , {});
             const buildingTypeName = this.getName(id);
             this.popoverName.innerHTML = buildingTypeName;
             this.popoverSurvivorCheckbox.checked = this.stateManager.state[id]?.survivor ?? false;
@@ -72,8 +74,8 @@
             for (var room of metadataRooms) {
                 const chip = document.createElement("div");
                 chip.className = "chip";
-                chip.innerHTML = room;
-                const roomOption = room;
+                const roomOption = metadataRoomNames[room];
+                chip.innerHTML = roomOption;
                 chip.addEventListener('click', () => {
                     this.roomClick(roomOption);
                 })
@@ -111,9 +113,9 @@
 
         getName(id) {
             const building = document.getElementById(id);
-            const buildingType = building.getAttribute("type");
+            const buildingType = building.getAttribute("t");
             let typeName;
-            //const buildingName = building.getAttribute("name");
+            //const buildingName = building.getAttribute("n");
             //if (buildingName && buildingName.length) {
             //    return buildingName;
             //}
@@ -123,7 +125,7 @@
             else {
                 typeName = buildingType.replace(/([a-z])([A-Z])/g, '$1 $2')
             }
-            const buildingFloors = +building.getAttribute("floors");
+            const buildingFloors = +building.getAttribute("f") || 1;
             const floorsString = buildingFloors == 1 ? "floor" : "floors"
             return typeName + ` (${buildingFloors} ${floorsString})`;
         }

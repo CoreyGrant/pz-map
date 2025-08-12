@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUglify;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace PzMap
         {
             var indexHtmlPath = Path.Combine(_assetFolder, _htmlFilename);
             var indexHtml = File.ReadAllText(indexHtmlPath);
-            return FileRegex.Replace(indexHtml, (match) =>
+            return Uglify.Html(FileRegex.Replace(indexHtml, (match) =>
             {
                 var name = match.Groups[1].Value;
                 var ext = match.Groups[2].Value;
@@ -34,10 +35,10 @@ namespace PzMap
                 var fileContents = File.ReadAllText(itemPath);
                 if(ext == "js")
                 {
-                    return $"<script>{fileContents}</script>";
+                    return $"<script>{Uglify.Js(fileContents).Code}</script>";
                 } else if(ext == "css")
                 {
-                    return $"<style>{fileContents}</style>";
+                    return $"<style>{Uglify.Css(fileContents).Code}</style>";
                 } else if(ext == "json")
                 {
                     return $"<script>window.{name}={fileContents}</script>";
@@ -46,8 +47,7 @@ namespace PzMap
                 {
                     return fileContents;
                 }
-                 
-            });
+            })).Code;
         }
 
         public void PerformAndSave(string outputPath)

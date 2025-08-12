@@ -89,11 +89,12 @@ namespace PzMap.Utilities
             var yPoints = Points.Select(x => x.Y);
             var midPointX = (xPoints.Max() + xPoints.Min())/2;
             var midPointY = (yPoints.Max() + yPoints.Min())/2;
-            var type = string.IsNullOrEmpty(Type) ? "" : @$"type=""{Type}""";
-            var key = string.IsNullOrEmpty(Key) ? "" : $@"key=""{Key}""";
-            var name = string.IsNullOrEmpty(Name) ? "" : $@"name=""{Name}""";
+            var type = string.IsNullOrEmpty(Type) ? "" : @$"t=""{Type}""";
+            var key = string.IsNullOrEmpty(Key) ? "" : $@"k=""{Key}""";
+            var name = string.IsNullOrEmpty(Name) ? "" : $@"n=""{Name}""";
+            var floors = Floors > 1 ? "f=\"" + Floors + "\"": "";
             var midpoint = string.IsNullOrEmpty(Key) ? "" : $@"x=""{midPointX}"" y=""{midPointY}""";
-            return $@"<polygon stroke=""{ColorToString(stroke)}"" stroke-width=""{StrokeWidth}"" {type} {key} {name} floors=""{Floors}"" {midpoint} fill=""{ColorToString(fill)}"" points=""{string.Join(" ", Points.Select(x => x.X + "," + x.Y))}"" id=""{Id}""/>";
+            return $@"<polygon stroke=""{ColorToString(stroke)}"" stroke-width=""{StrokeWidth}"" {type} {key} {name} {floors} {midpoint} fill=""{ColorToString(fill)}"" points=""{string.Join(" ", Points.Select(x => x.X + "," + x.Y))}"" id=""{Id}""/>";
         }
 
         private string ColorToString(Color? color)

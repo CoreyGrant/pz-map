@@ -71,7 +71,19 @@ namespace PzMap
             List<PzMapRoom> rooms)
         {
             var buildingTypeMetadata = new Dictionary<string, object>();
-
+            var lotHeaderNames = rooms.Select(x => x.Name).Distinct();
+            var names = new List<string>();
+            foreach (var name in lotHeaderNames)
+            {
+                if (!names.Contains(name)) { names.Add(name); }
+            }
+            var orderedNames = names.Order().ToList();
+            var nameDict = new Dictionary<string, int>();
+            for (var index = 0; index < orderedNames.Count; index++)
+            {
+                nameDict[orderedNames[index]] = index;
+            }
+            buildingTypeMetadata["roomNames"] = nameDict;
             var metadataRooms = new Dictionary<string, object>();
             buildingTypeMetadata["rooms"] = metadataRooms;
             var i = 0;
@@ -86,7 +98,7 @@ namespace PzMap
                 var minX = segment.Points.Select(x => x.X).Min();
                 var maxY = segment.Points.Select(x => x.Y).Max();
                 var minY = segment.Points.Select(x => x.Y).Min();
-                List<string> matchingRooms = new List<string>();
+                List<int> matchingRooms = new List<int>();
                 var maxFloor = 0;
                 foreach(var room in rooms)
                 {
@@ -99,22 +111,17 @@ namespace PzMap
                     });
                     if (isInBuilding)
                     {
-                        matchingRooms.Add(room.Name);
+                        matchingRooms.Add(nameDict[room.Name]);
                         maxFloor = Math.Max(maxFloor, room.Floor + 1);
                     }
                 }
                 var segmentRooms = matchingRooms.Distinct().Order().ToList();
                 metadataRooms[segment.Id] = segmentRooms;
-                segment.Name = GetName(segmentRooms);
+                //segment.Name = GetName(segmentRooms);
                 segment.Floors = maxFloor;
             }
-            var lotHeaderNames = rooms.Select(x => x.Name).Distinct();
-            var names = new List<string>();
-            foreach (var name in lotHeaderNames)
-            {
-                if (!names.Contains(name)) { names.Add(name); }
-            }
-            buildingTypeMetadata["roomNames"] = names.Order();
+            
+
             return buildingTypeMetadata;
         }
 

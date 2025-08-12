@@ -16,29 +16,31 @@
             const roomAmounts = {};
             const roomValues = Object.values(this.rooms);
             for (var roomValue of roomValues) {
-                for (var room of roomValue) {
-                    if (!roomAmounts[room]) { roomAmounts[room] = 0 }
-                    roomAmounts[room]++;
+                for (var roomIndex of roomValue) {
+                    if (!roomAmounts[roomIndex]) { roomAmounts[roomIndex] = 0 }
+                    roomAmounts[roomIndex]++;
                 }
             }
             this.locator = document.getElementById("locator");
             this.locatorSelect = document.getElementById("locator-select");
             this.locatorButton = document.getElementById("locator-button");
-            for (var roomName of this.roomNames) {
+            for (var roomName in this.roomNames) {
                 const option = document.createElement("option");
-                option.innerHTML = roomName + " (" + roomAmounts[roomName] + ")";
-                option.value = roomName;
+                const value = this.roomNames[roomName];
+                option.innerHTML = roomName + " (" + roomAmounts[value] + ")";
+                option.value = value
                 this.locatorSelect.appendChild(option);
             }
 
             this.locatorButton.addEventListener("click", () => {
-                const value = this.locatorSelect.value;
+                const value = +this.locatorSelect.value;
                 this.showRooms(value);
             });
         }
 
         showRooms(roomName) {
             let showCounter = 0;
+            console.log(this.rooms, roomName);
             var matchingPolygons = Object.keys(this.rooms)
                 .filter(x => this.rooms[x].indexOf(roomName) > -1);
             const locations = matchingPolygons
