@@ -183,7 +183,12 @@ input[type="checkbox"] {
 #save-manager-new{
     display: flex;
 }
-
+legend{
+    cursor: pointer;
+}
+fieldset.collapsed *:not(legend){
+    display: none !important;
+}
 #save-manager-new label{
 }
 

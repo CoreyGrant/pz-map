@@ -161,6 +161,15 @@
         
     }
 
+    document.querySelectorAll("legend").forEach(x => x.addEventListener('click', function () {
+        const parent = this.parentNode;
+        const className = parent.className;
+        if (className === "collapsed") {
+            parent.className = "";
+        } else {
+            parent.className = "collapsed";
+        }
+    }));
     
     // hacky reset behaviour
     function setupReset() {
