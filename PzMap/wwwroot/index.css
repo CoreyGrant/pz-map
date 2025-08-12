@@ -186,6 +186,9 @@ input[type="checkbox"] {
 legend{
     cursor: pointer;
 }
+fieldset.collapsed{
+    padding: 0 !important;
+}
 fieldset.collapsed *:not(legend){
     display: none !important;
 }
