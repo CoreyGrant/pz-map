@@ -270,7 +270,8 @@
         scaleScreenToSvgAbsolute({ x, y }) {
             this.pt.x = x;
             this.pt.y = y;
-            return this.pt.matrixTransform(this.svg.getScreenCTM().inverse());
+            const scaled = this.pt.matrixTransform(this.svg.getScreenCTM().inverse());
+            return { x: scaled.x, y: scaled.y };
         }
 
         loadQuery() {

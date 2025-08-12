@@ -2,8 +2,8 @@
 
     setupReset();
 
-    const uid = function () {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    const uid = function (prefix = "") {
+        return prefix + "_" + Date.now().toString(36) + Math.random().toString(36).substring(4);
     }
     // load the svg
     const stateManager = window.stateManager;
@@ -46,7 +46,8 @@
 
     const addToolbarItem = ({ text, location, color, size }) => {
         var scaled = mapSvg.scaleScreenToSvgAbsolute(location);
-        var id = uid();
+        var id = uid("text");
+        console.log(scaled);
         stateManager.upsertStateItem(id, "text", text);
         stateManager.upsertStateItem(id, "location", scaled);
         stateManager.upsertStateItem(id, "size", size);
