@@ -64,6 +64,7 @@ namespace PzMap.Utilities
 
     public class SvgPolygon
     {
+        public static int _id = 0;
         public IEnumerable<Vector2> Points { get; }
         public string Type { get; }
         public string Key { get; }
@@ -88,18 +89,11 @@ namespace PzMap.Utilities
             var yPoints = Points.Select(x => x.Y);
             var midPointX = (xPoints.Max() + xPoints.Min())/2;
             var midPointY = (yPoints.Max() + yPoints.Min())/2;
-            return $@"<polygon 
-    stroke=""{ColorToString(stroke)}""
-    stroke-width=""{StrokeWidth}""
-    type=""{Type}""
-    key=""{Key}""
-    name=""{Name}""
-    floors=""{Floors}""
-    midpoint-x=""{midPointX}""
-    midpoint-y=""{midPointY}""
-    fill=""{ColorToString(fill)}""
-    points=""{string.Join(" ", Points.Select(x => x.X + "," + x.Y))}"" 
-    id=""{Id}""/>";
+            var type = string.IsNullOrEmpty(Type) ? "" : @$"type=""{Type}""";
+            var key = string.IsNullOrEmpty(Key) ? "" : $@"key=""{Key}""";
+            var name = string.IsNullOrEmpty(Name) ? "" : $@"name=""{Name}""";
+            var midpoint = string.IsNullOrEmpty(Key) ? "" : $@"x=""{midPointX}"" y=""{midPointY}""";
+            return $@"<polygon stroke=""{ColorToString(stroke)}"" stroke-width=""{StrokeWidth}"" {type} {key} {name} floors=""{Floors}"" {midpoint} fill=""{ColorToString(fill)}"" points=""{string.Join(" ", Points.Select(x => x.X + "," + x.Y))}"" id=""{Id}""/>";
         }
 
         private string ColorToString(Color? color)

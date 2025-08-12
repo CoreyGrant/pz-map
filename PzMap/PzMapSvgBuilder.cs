@@ -53,7 +53,14 @@ namespace PzMap
 
             foreach (var segment in segments)
             {
-                svgWriter.AddPolygon(segment.Points, segment.Type, segment.Key, segment.Id, GetColor(segment.Type, segment.Key), segment.Name, segment.Floors);
+                svgWriter.AddPolygon(
+                    segment.Points, 
+                    segment.Key == "building" ? segment.Type : null,
+                    segment.Key == "building" ? segment.Key : null, 
+                    segment.Id, 
+                    GetColor(segment.Type, segment.Key), 
+                    segment.Name, 
+                    segment.Floors);
             }
         }
 

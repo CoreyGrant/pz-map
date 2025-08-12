@@ -45,8 +45,8 @@
                 .map(x => {
                     const polygon = document.getElementById(x);
                     return {
-                        x: +polygon.getAttribute("midpoint-x"),
-                        y: +polygon.getAttribute("midpoint-y")
+                        x: +polygon.getAttribute("x"),
+                        y: +polygon.getAttribute("y")
                     }
                 });
             

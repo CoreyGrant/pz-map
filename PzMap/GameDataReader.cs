@@ -14,6 +14,7 @@ namespace PzMap
         private readonly string _xmlFileName;
         private readonly int _cellWidth;
         private readonly int _cellHeight;
+        private int _id = 0;
         public int CellHeight => _cellHeight;
         public int CellWidth => _cellWidth;
         public GameDataReader(
@@ -137,7 +138,7 @@ namespace PzMap
                         Points = points,
                         Type = type,
                         Key = key,
-                        Id = string.Join(".", points.Select(x => x.X + "," + x.Y))
+                        Id = (_id++).ToString()
                     });
                 }
             }
