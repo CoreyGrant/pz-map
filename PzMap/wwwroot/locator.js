@@ -57,7 +57,7 @@
                 var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
                 circle.setAttribute("cx", x.x);
                 circle.setAttribute("cy", x.y);
-                circle.setAttribute("r", this.svgMap.zoomScale(300));
+                circle.setAttribute("r", this.svgMap.zoomScale(600));
                 circle.setAttribute("fill", "rgba(0,255,0,0.4)");
                 circle.setAttribute("stroke", "green");
                 circle.setAttribute("stroke-width", this.svgMap.zoomScale(20));
@@ -71,7 +71,7 @@
                     circles.forEach(x => x.remove());
                     return;
                 }
-                const updatedCounter = this.svgMap.zoomScale(300 - showCounter * 10)
+                const updatedCounter = this.svgMap.zoomScale(600 - showCounter * 20)
                 circles.forEach(x => x.setAttribute("r", updatedCounter));
             }, 33);
         }
