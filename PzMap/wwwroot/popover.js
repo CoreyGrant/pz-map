@@ -16,7 +16,8 @@
         id;
         polygonManager;
         locator;
-        constructor(svg, stateManager, metadata, polygonManager, locator) {
+        constructor(svg, stateManager, metadata, polygonManager, locator, info) {
+            this.info = info;
             this.svg = svg;
             this.polygonManager = polygonManager;
             this.locator = locator;
@@ -57,13 +58,18 @@
 
         show(id) {
             this.id = id;
-
+            const polygon = document.getElementById(id);
             const state = this.stateManager.getState();
             const metadataRooms = this.metadata.rooms[id];
             const metadataRoomNames = Object.entries(this.metadata.roomNames)
                 .reduce((p, c) => ({...p, [c[1]]: c[0]}) , {});
             const buildingTypeName = this.getName(id);
-            this.popoverName.innerHTML = buildingTypeName;
+
+            const posX = +polygon.getAttribute("x") - this.info.offsetX;
+            const posY = +polygon.getAttribute("y") - this.info.offsetY;
+            const officialMapUrl = `https://map.projectzomboid.com/#${posX}x${posY}x2000`;
+            this.popoverName.innerHTML = buildingTypeName + ` <a target="blank" href="${officialMapUrl}">3d</a>`;
+
             this.popoverSurvivorCheckbox.checked = state[id]?.survivor ?? false;
             this.popoverLootedCheckbox.checked = state[id]?.looted ?? false;
             this.popoverBaseCheckbox.checked = state[id]?.base ?? false;

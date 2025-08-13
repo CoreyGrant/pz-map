@@ -44,6 +44,8 @@ namespace PzMap
             {
                 ["mapWidth"] = imageDimensions.Width,
                 ["mapHeight"] = imageDimensions.Height,
+                ["offsetX"] = imageDimensions.XOffset,
+                ["offsetY"] = imageDimensions.YOffset
             });
             return (svgWriter.ToString(), metadata, info);
         }

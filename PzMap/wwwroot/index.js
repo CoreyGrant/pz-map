@@ -54,7 +54,7 @@
     }
     const mapSvg = new MapSvg(svg, mapConfig);
     const locator = new Locator(svg, metadata, mapSvg);
-    const popover = new Popover(svg, stateManager, metadata, polygonManager, locator)
+    const popover = new Popover(svg, stateManager, metadata, polygonManager, locator, info)
     const saveManager = new SaveManager(stateManager, popover, polygonManager);
     const toolbar = new Toolbar(stateManager, svg, mapSvg, polygonManager);
     const svgManager = new SvgManager(svg, popover);
