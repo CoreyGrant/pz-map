@@ -1,7 +1,5 @@
 ﻿
 (function () {
-    
-
     class Popover {
         popover;
         popoverDefault;
@@ -16,11 +14,12 @@
         stateManager;
         metadata;
         id;
-        onChange;
-        roomClick;
-        constructor(svg, stateManager, metadata, onChange, roomClick) {
+        polygonManager;
+        locator;
+        constructor(svg, stateManager, metadata, polygonManager, locator) {
             this.svg = svg;
-            this.roomClick = roomClick;
+            this.polygonManager = polygonManager;
+            this.locator = locator;
             this.popover = document.getElementById("pop-over");
             this.popoverDefault = document.getElementById("pop-over-default");
             this.popoverName = document.getElementById("pop-over-name");
@@ -34,50 +33,51 @@
             this.popoverRooms = document.getElementById("pop-over-rooms");
             this.stateManager = stateManager;
             this.metadata = metadata;
-            this.onChange = onChange;
 
             this.popoverLootedCheckbox.addEventListener("change", (ev) => {
                 this.stateManager.upsertStateItem(this.id, "looted", ev.target.checked);
-                this.onChange(this.id);
+                this.polygonManager.updatePolygon(this.id, this.stateManager.getState());
             });
 
             this.popoverSurvivorCheckbox.addEventListener("change", (ev) => {
                 this.stateManager.upsertStateItem(this.id, "survivor", ev.target.checked);
-                this.onChange(this.id);
+                this.polygonManager.updatePolygon(this.id, this.stateManager.getState());
             });
 
             this.popoverBaseCheckbox.addEventListener("change", (ev) => {
                 this.stateManager.upsertStateItem(this.id, "base", ev.target.checked);
-                this.onChange(this.id);
+                this.polygonManager.updatePolygon(this.id, this.stateManager.getState());
             });
 
             this.popoverNotes.addEventListener("input", (ev) => {
                 this.stateManager.upsertStateItem(this.id, "notes", ev.target.innerHTML);
-                this.onChange(this.id);
+                this.polygonManager.updatePolygon(this.id, this.stateManager.getState());
             });
         }
 
         show(id) {
             this.id = id;
 
+            const state = this.stateManager.getState();
             const metadataRooms = this.metadata.rooms[id];
             const metadataRoomNames = Object.entries(this.metadata.roomNames)
                 .reduce((p, c) => ({...p, [c[1]]: c[0]}) , {});
             const buildingTypeName = this.getName(id);
             this.popoverName.innerHTML = buildingTypeName;
-            this.popoverSurvivorCheckbox.checked = this.stateManager.state[id]?.survivor ?? false;
-            this.popoverLootedCheckbox.checked = this.stateManager.state[id]?.looted ?? false;
-            this.popoverBaseCheckbox.checked = this.stateManager.state[id]?.base ?? false;
-            this.popoverNotes.innerHTML = this.stateManager.state[id]?.notes ?? "";
+            this.popoverSurvivorCheckbox.checked = state[id]?.survivor ?? false;
+            this.popoverLootedCheckbox.checked = state[id]?.looted ?? false;
+            this.popoverBaseCheckbox.checked = state[id]?.base ?? false;
+            this.popoverNotes.innerHTML = state[id]?.notes ?? "";
             
             this.popoverRooms.innerHTML = "";
             for (var room of metadataRooms) {
                 const chip = document.createElement("div");
                 chip.className = "chip";
                 const roomOption = metadataRoomNames[room];
+                const roomCopy = room;
                 chip.innerHTML = roomOption;
                 chip.addEventListener('click', () => {
-                    this.roomClick(roomOption);
+                    this.locator.selectOption(roomCopy);
                 })
                 this.popoverRooms.appendChild(chip);
             }

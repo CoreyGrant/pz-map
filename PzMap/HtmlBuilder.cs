@@ -20,26 +20,34 @@ namespace PzMap
             _assetFolder = assetFolder;
             _htmlFilename = htmlFilename;
         }
-
+        private bool _minify = false;
         private Regex FileRegex = new Regex("%([a-zA-Z-]+)\\.([a-z]+)%");
 
         public string PerformReplacements()
         {
             var indexHtmlPath = Path.Combine(_assetFolder, _htmlFilename);
             var indexHtml = File.ReadAllText(indexHtmlPath);
-            return Uglify.Html(FileRegex.Replace(indexHtml, (match) =>
+            var htmlContent = FileRegex.Replace(indexHtml, (match) =>
             {
                 var name = match.Groups[1].Value;
                 var ext = match.Groups[2].Value;
                 var itemPath = Path.Combine(_assetFolder, name + "." + ext);
                 var fileContents = File.ReadAllText(itemPath);
-                if(ext == "js")
+                if (ext == "js")
                 {
-                    return $"<script>{Uglify.Js(fileContents).Code}</script>";
-                } else if(ext == "css")
+                    var minified = _minify
+                        ? Uglify.Js(fileContents).Code
+                        : fileContents;
+                    return $"<script>{minified}</script>";
+                }
+                else if (ext == "css")
                 {
-                    return $"<style>{Uglify.Css(fileContents).Code}</style>";
-                } else if(ext == "json")
+                    var minified = _minify
+                        ? Uglify.Css(fileContents).Code
+                        : fileContents;
+                    return $"<style>{minified}</style>";
+                }
+                else if (ext == "json")
                 {
                     return $"<script>window.{name}={fileContents}</script>";
                 }
@@ -47,7 +55,10 @@ namespace PzMap
                 {
                     return fileContents;
                 }
-            })).Code;
+            });
+            return _minify 
+                ? Uglify.Html(htmlContent).Code 
+                : htmlContent;
         }
 
         public void PerformAndSave(string outputPath)

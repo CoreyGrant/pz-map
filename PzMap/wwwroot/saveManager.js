@@ -1,6 +1,8 @@
 ﻿(function() {
     class SaveManager {
         stateManager;
+        polygonManager;
+        popover;
         saveManagerNew;
         saveManagerShowNew;
         saveManagerShowNewAdd;
@@ -8,12 +10,11 @@
         newSaveInput;
         newSaveButton;
         newCancelButton;
-
         saveSelect;
-        onChange;
-        constructor(stateManager, onChange) {
+        constructor(stateManager, popover, polygonManager) {
             this.stateManager = stateManager;
-            this.onChange = onChange;
+            this.popover = popover;
+            this.polygonManager = polygonManager;
             this.newSaveInput = document.querySelector("#save-manager-new input");
             this.newSaveButton = document.querySelector("#save-manager-new-save");
             this.newCancelButton = document.querySelector("#save-manager-new-cancel");
@@ -31,13 +32,22 @@
             this.newCancelButton.addEventListener("click", () => this.cancel());
 
         }
+        onChange(oldState) {
+            this.popover.hide();
+            const newState = this.stateManager.getState();
+            Object.keys(oldState).forEach(id =>
+                this.polygonManager.updatePolygon(id, oldState, true));
+            Object.keys(newState).forEach(id =>
+                this.polygonManager.updatePolygon(id, newState));
+        }
         showNew() {
             this.saveManagerNew.style.display = "initial";
             this.saveSelect.style.display = "none";
             this.saveManagerShowNew.style.display = "none";
+            this.popover.hide();
         }
         addNewSave() {
-            const oldState = this.stateManager.state;
+            const oldState = this.stateManager.getState();
             const inputValue = this.newSaveInput.value;
             if (!inputValue || !inputValue.length || inputValue === "default" || inputValue === "last-save") {
                 return;
@@ -47,9 +57,7 @@
             if (currentSave === "default") {
                 this.stateManager.renameDefaultSave(inputValue);
             }
-            this.stateManager.saveKey = inputValue;
             this.stateManager.saveLastSave(inputValue);
-            this.stateManager.state = this.stateManager.loadState();
             this.setSelectOptions(inputValue);
             this.saveManagerNew.style.display = "none";
             this.saveSelect.style.display = "initial";
@@ -63,7 +71,7 @@
             this.saveManagerShowNew.style.display = "initial";
         }
         remove() {
-            const oldState = this.stateManager.state;
+            const oldState = this.stateManager.getState();
             const saveToRemove = this.saveSelect.value;
             if (saveToRemove == "default") { return; }
             const confirmed = confirm("Are you sure you want to delete " + saveToRemove);
@@ -73,10 +81,8 @@
             this.onChange(oldState);
         }
         loadSave(value) {
-            const oldState = this.stateManager.state;
-            this.stateManager.saveKey = value;
+            const oldState = this.stateManager.getState();
             this.stateManager.saveLastSave(value);
-            this.stateManager.state = this.stateManager.loadState();
             this.onChange(oldState);
         }
         setSelectOptions(initialValue) {
