@@ -20,7 +20,7 @@ namespace PzMap
             _assetFolder = assetFolder;
             _htmlFilename = htmlFilename;
         }
-        private bool _minify = false;
+        private bool _minify = true;
         private Regex FileRegex = new Regex("%([a-zA-Z-]+)\\.([a-z]+)%");
 
         public string PerformReplacements()
