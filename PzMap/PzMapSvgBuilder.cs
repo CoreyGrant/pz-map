@@ -32,7 +32,7 @@ namespace PzMap
             _dataCache = new DataCache(outputPath);
         }
 
-        private bool _cache = false;
+        private bool _cache = true;
         public void BuildAndSaveVersions(List<VersionSettings> versionSettings)
         {
             foreach(var settings in versionSettings)

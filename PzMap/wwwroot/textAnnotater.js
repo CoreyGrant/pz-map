@@ -15,56 +15,68 @@
     }
     const annotations = {
         "41": [
-            //cityName({
-            //    location: { x: 9500, y: 9180 },
-            //    text: "Muldraugh",
-            //}),
-            //cityName({
-            //    location: { x: 6100, y: 5150 },
-            //    text: "Riverside",
-            //}),
-            //cityName({
-            //    location: { x: 7100, y: 11400 },
-            //    text: "Rosewood",
-            //}),
-            //cityName({
-            //    location: { x: 11200, y: 6550 },
-            //    text: "West Point",
-            //}),
-            //cityName({
-            //    location: { x: 12600, y: 1080 },
-            //    text: "Louisville",
-            //}),
-            //cityName({
-            //    location: { x: 9220, y: 12550 },
-            //    text: "March Ridge",
-            //}),
+            cityName({
+                location: { x: 6500, y: 8280},
+                text: "Muldraugh",
+            }),
+            cityName({
+                location: { x: 3100, y: 4250 },
+                text: "Riverside",
+            }),
+            cityName({
+                location: { x: 4100, y: 10500 },
+                text: "Rosewood",
+            }),
+            cityName({
+                location: { x: 8200, y: 5650 },
+                text: "West Point",
+            }),
+            cityName({
+                location: { x: 9600, y: 180 },
+                text: "Louisville",
+            }),
+            cityName({
+                location: { x: 6220, y: 11650 },
+                text: "March Ridge",
+            }),
         ],
         "42": [
-            //cityName({
-            //    location: { x: 8100, y: 7780},
-            //    text: "Muldraugh",
-            //}),
-            //cityName({
-            //    location: { x: 6100, y: 5150 },
-            //    text: "Riverside",
-            //}),
-            //cityName({
-            //    location: { x: 7100, y: 11400 },
-            //    text: "Rosewood",
-            //}),
-            //cityName({
-            //    location: { x: 11200, y: 6550 },
-            //    text: "West Point",
-            //}),
-            //cityName({
-            //    location: { x: 12600, y: 1080 },
-            //    text: "Louisville",
-            //}),
-            //cityName({
-            //    location: { x: 9220, y: 12550 },
-            //    text: "March Ridge",
-            //}),
+            cityName({
+                location: { x: 9500, y: 9180},
+                text: "Muldraugh",
+            }),
+            cityName({
+                location: { x: 6100, y: 5150 },
+                text: "Riverside",
+            }),
+            cityName({
+                location: { x: 7100, y: 11400 },
+                text: "Rosewood",
+            }),
+            cityName({
+                location: { x: 11200, y: 6550 },
+                text: "West Point",
+            }),
+            cityName({
+                location: { x: 12600, y: 1080 },
+                text: "Louisville",
+            }),
+            cityName({
+                location: { x: 9220, y: 12550 },
+                text: "March Ridge",
+            }),
+            cityName({
+                location: { x: 1800, y: 5650 },
+                text: "Brandenburg"
+            }),
+            cityName({
+                location: { x: 1000, y: 10100 },
+                text: "Ekron"
+            }),
+            cityName({
+                location: { x: 1400, y: 14000 },
+                text: "Irvington"
+            })
         ]
     };
     
