@@ -15,21 +15,40 @@ namespace PzMap
     {
         private readonly GameDataReader _gameDataReader;
         private readonly PzMapRoomReader _pzMapRoomReader;
+        private readonly string _outputPath;
 
         public PzMapSvgBuilder(
             GameDataReader gameDataReader,
-            PzMapRoomReader pzMapRoomReader) 
+            PzMapRoomReader pzMapRoomReader,
+            string outputPath) 
         {
             _gameDataReader = gameDataReader;
             _pzMapRoomReader = pzMapRoomReader;
+            _outputPath = outputPath;
+        }
+        public void BuildAndSaveVersions(Dictionary<int, string> versionPaths)
+        {
+            foreach(var (version, folderPath) in versionPaths)
+            {
+                var (svg, metadata, info) = BuildSvg(
+                    folderPath, version);
+                var svgOutputPath = Path.Combine(_outputPath, $"b{version}-svg.svg");
+                var infoOutputPath = Path.Combine(_outputPath, $"b{version}-info.json");
+                var metadataOutputPath = Path.Combine(_outputPath, $"b{version}-metadata.json");
+                File.WriteAllText(svgOutputPath, svg);
+                File.WriteAllText(infoOutputPath, info);
+                File.WriteAllText(metadataOutputPath, metadata);
+            }
+            var versionsJson = JsonConvert.SerializeObject(versionPaths.Keys.ToList());
+            File.WriteAllText(Path.Combine(_outputPath, "versions.json"), versionsJson);
         }
 
-        public (string, string, string) BuildSvg()
+        public (string, string, string) BuildSvg(string folderPath, int version)
         {
-            var drawingLayers = _gameDataReader.ReadGameData();
+            var drawingLayers = _gameDataReader.ReadGameData(folderPath);
             var imageDimensions = GetImageDimensions(drawingLayers);
             var svgWriter = new SvgWriter(imageDimensions);
-            var metadataDict = _pzMapRoomReader.AssignBuildingTypesFromLotHeaders(drawingLayers.BuildingLayer);
+            var metadataDict = _pzMapRoomReader.AssignBuildingTypesFromLotHeaders(drawingLayers.BuildingLayer, version);
 
             svgWriter.AddStyleOptions();
             AddToSvg(drawingLayers.WaterLayer, svgWriter); 

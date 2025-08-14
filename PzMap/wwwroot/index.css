@@ -9,6 +9,11 @@ svg {
     height: 100vh;
     width: 100vw;
 }
+#version-selector{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
 #sidebar {
     position: absolute;
     border: 2px solid black;

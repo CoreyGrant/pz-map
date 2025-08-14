@@ -31,9 +31,10 @@ namespace PzMap
             _cellHeight = cellHeight;
         }
 
-        public Dictionary<string, object> AssignBuildingTypesFromLotHeaders(List<Segment> buildingSegments)
+        public Dictionary<string, object> AssignBuildingTypesFromLotHeaders(List<Segment> buildingSegments, int version)
         {
-            var lotHeaders = _lotHeaderReader.ReadFolder(_lotHeaderPath);
+            var lotHeaders = _lotHeaderReader.ReadFolder(
+                Path.Combine(_lotHeaderPath, "b" + version), version);
             var combinedLotHeaders = CombineLotHeaders(lotHeaders);
             return AssignBuildingTypes(buildingSegments, combinedLotHeaders);
         }

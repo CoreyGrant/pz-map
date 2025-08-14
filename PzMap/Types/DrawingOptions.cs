@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PzMap.Types
 {
-    public class DrawingOptions
-    {
-        public MapBackgroundMode MapBackgroundMode { get; set; }
-        public MapMode MapMode { get; set; }
-    }
+    //public class DrawingOptions
+    //{
+    //    public MapBackgroundMode MapBackgroundMode { get; set; }
+    //    public MapMode MapMode { get; set; }
+    //}
 }

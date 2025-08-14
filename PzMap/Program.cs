@@ -4,26 +4,32 @@ using PzMapTools;
 var arguments = args;
 
 var assetFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-const string lotHeaderPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\ProjectZomboid\\media\\maps\\Muldraugh, KY";
+var distFolder = Path.Combine(assetFolder, "dist");
+const string folderPath = "C:\\Dev\\pz-assets";
 var lotHeadeReader = new LotHeaderReader();
-var dataCache = new DataCache(assetFolder);
 Action run = () =>
 {
-    string svg; string metadata; string info;
-    if(!dataCache.TryGetCached(out svg, out metadata, out info))
-    {
-        (svg, metadata, info) = new PzMapSvgBuilder(
-            new GameDataReader(),
-            new PzMapRoomReader(
-                lotHeadeReader,
-                lotHeaderPath)).BuildSvg();
-        dataCache.Cache(svg, metadata, info);
+    if (!Directory.Exists(distFolder)) 
+    {  
+        Directory.CreateDirectory(distFolder); 
     }
-    
+    var versionPaths = new Dictionary<int, string>
+    {
+        [41] = "C:\\Dev\\pz-assets\\b41",
+        //[42] = "C:\\Dev\\pz-assets\\b42",
+    };
+    new PzMapSvgBuilder(
+        new GameDataReader(),
+        new PzMapRoomReader(
+            lotHeadeReader,
+            folderPath),
+        distFolder
+        ).BuildAndSaveVersions(versionPaths);
+
     var htmlBuilder = new HtmlBuilder(
         assetFolder,
         "index.html");
-    htmlBuilder.PerformAndSave("index.html");
+    htmlBuilder.PerformAndSave(Path.Combine(distFolder, "index.html"));
 };
 run();
 

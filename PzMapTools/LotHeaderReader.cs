@@ -11,39 +11,68 @@ namespace PzMapTools
     {
         private const byte StringDelim = 0x0A;
 
-        public List<LotHeaderFile> ReadFolder(string lotHeaderFolder)
+        public List<LotHeaderFile> ReadFolder(string lotHeaderFolder, int version)
         {
             return Directory.GetFiles(lotHeaderFolder)
                 .Where(x => Path.GetExtension(x) == ".lotheader")
-                .Select(x => Read(File.OpenRead(x), x))
+                .Select(x => Read(File.OpenRead(x), x, version))
                 .ToList();
         }
 
-        public LotHeaderFile Read(Stream stream, string filename)
+        public LotHeaderFile Read(Stream stream, string filename, int version)
         {
-            var allBytes = new byte[stream.Length];
-            stream.ReadExactly(allBytes);
-            stream.Position = 0;
-            var file = new LotHeaderFile();
-            file.FormatVersion = ReadInt(stream);
-            file.NumberOfTiles = ReadInt(stream);
-            file.UnknownStrings = ReadStrings(stream);
-            file.Width = ReadInt(stream);
-            file.Height = ReadInt(stream);
-            file.VerticalLevels = ReadInt(stream);
-            file.RoomCount = ReadInt(stream);
-            file.Rooms = ReadRooms(file.RoomCount, stream);
-            file.BuildingCount = ReadInt(stream);
-            file.Buildings = ReadBuildings(file.BuildingCount, stream);
-            var name = Path.GetFileNameWithoutExtension(filename);
-            var split = name.Split("_").Select(x => int.Parse(x)).ToArray();
-            file.CellX = split[0];
-            file.CellY = split[1];
-            return file;
+            Console.WriteLine("Reading " + filename);
+            if (version == 41)
+            {
+                var allBytes = new byte[stream.Length];
+                stream.ReadExactly(allBytes);
+                stream.Position = 0;
+                var file = new LotHeaderFile();
+                file.FormatVersion = ReadInt(stream);
+                file.NumberOfTiles = ReadInt(stream);
+                file.UnknownStrings = ReadStrings(stream);
+                file.Width = ReadInt(stream);
+                file.Height = ReadInt(stream);
+                file.VerticalLevels = ReadInt(stream);
+                file.RoomCount = ReadInt(stream);
+                file.Rooms = ReadRooms(file.RoomCount, stream);
+                file.BuildingCount = ReadInt(stream);
+                file.Buildings = ReadBuildings(file.BuildingCount, stream);
+                var name = Path.GetFileNameWithoutExtension(filename);
+                var split = name.Split("_").Select(x => int.Parse(x)).ToArray();
+                file.CellX = split[0];
+                file.CellY = split[1];
+                return file;
+            } else if (version == 42)
+            {
+                var allBytes = new byte[stream.Length];
+                stream.ReadExactly(allBytes);
+                stream.Position = 0;
+                var file = new LotHeaderFile();
+                file.FormatVersion = ReadInt(stream);
+                file.NumberOfTiles = ReadInt(stream);
+                ReadInt(stream);
+                file.UnknownStrings = ReadStrings(stream);
+                file.Width = ReadInt(stream);
+                file.Height = ReadInt(stream);
+                file.VerticalLevels = ReadInt(stream);
+                file.RoomCount = ReadInt(stream);
+                file.Rooms = ReadRooms(file.RoomCount, stream);
+                file.BuildingCount = ReadInt(stream);
+                file.Buildings = ReadBuildings(file.BuildingCount, stream);
+                var name = Path.GetFileNameWithoutExtension(filename);
+                var split = name.Split("_").Select(x => int.Parse(x)).ToArray();
+                file.CellX = split[0];
+                file.CellY = split[1];
+                return file;
+
+            }
+                throw new Exception($"Version {version} not implemented");
         }
 
         private int ReadInt(Stream stream)
         {
+            if(stream.Position == stream.Length) { return 0; }
             var intValue = new byte[4];
             stream.ReadExactly(intValue);
             return BitConverter.ToInt32(intValue);
@@ -55,7 +84,7 @@ namespace PzMapTools
             while (true)
             {
                 var stringByte = (byte)stream.ReadByte();
-                if (stringByte == StringDelim)
+                if (stringByte == StringDelim || stringByte == 0xFF)
                 {
                     return new string(bytes.Select(x => (char)x).ToArray());
                 }
@@ -65,11 +94,12 @@ namespace PzMapTools
 
         private string[] ReadStrings(Stream stream)
         {
+            if (stream.Position == stream.Length) { return []; }
             var strings = new List<string>();
             while (true)
             {
                 var peekedByte = stream.ReadByte();
-                if (peekedByte == 0x00) { return strings.ToArray(); }
+                if (peekedByte == 0x00 || peekedByte == 0xFF || peekedByte == -1) { return strings.ToArray(); }
                 stream.Position--;
                 strings.Add(ReadString(stream));
             }
@@ -77,6 +107,7 @@ namespace PzMapTools
 
         private List<Room> ReadRooms(int roomCount, Stream stream)
         {
+            if (stream.Position == stream.Length) { return []; }
             var rooms = new List<Room>();
             for (var i = 0; i < roomCount; i++)
             {
@@ -94,6 +125,7 @@ namespace PzMapTools
 
         private List<RoomRectangle> ReadRoomRectangles(int rectangleCount, Stream stream)
         {
+            if (stream.Position == stream.Length) { return []; }
             var roomRectangles = new List<RoomRectangle>();
             for (var i = 0; i < rectangleCount; i++)
             {
@@ -109,6 +141,7 @@ namespace PzMapTools
 
         private List<RoomObject> ReadRoomObjects(int objectCount, Stream stream)
         {
+            if (stream.Position == stream.Length) { return []; }
             var roomObjects = new List<RoomObject>();
             for (var i = 0; i < objectCount; i++)
             {
@@ -123,6 +156,7 @@ namespace PzMapTools
 
         private List<Building> ReadBuildings(int buildingCount, Stream stream)
         {
+            if (stream.Position == stream.Length) { return []; }
             var buildings = new List<Building>();
             for (var i = 0; i < buildingCount; i++)
             {

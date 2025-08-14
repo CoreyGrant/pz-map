@@ -2,10 +2,12 @@
     const appName = "pz-map";
     class StateManager{
         appState;
-        constructor(saveKey) {
-            this.appState = JSON.parse(localStorage.getItem(appName)
+        version;
+        constructor(version) {
+            this.version = version;
+            this.appState = JSON.parse(localStorage.getItem(appName + "-" + version)
                 ?? "{\"saves\": {}}");
-            this.appState.lastSave = saveKey ?? this.getLastSave();
+            this.appState.lastSave = this.getLastSave();
             const currentState = this.getState();
             if (!currentState) {
                 this.appState.saves[this.appState.lastSave] = {};
@@ -20,7 +22,7 @@
             return this.appState.saves[this.appState.lastSave];
         }
         saveState() {
-            localStorage.setItem(appName, JSON.stringify(this.appState));
+            localStorage.setItem(appName + "-" + version, JSON.stringify(this.appState));
         }
         
         removeStateItem(id) {
