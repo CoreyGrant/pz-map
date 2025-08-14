@@ -94,6 +94,8 @@
         }
 
         initButtonControls() {
+            const existing = document.getElementById("map-control");
+            if (existing) { existing.remove(); }
             const mapControl = document.createElement("div");
             mapControl.id = "map-control";
             function setElm(elm, id, text, onClick) {
