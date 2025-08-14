@@ -1,8 +1,8 @@
 ﻿(async function () {
     async function loadVersion(version) {
-        const infoFile = await fetch(`/b${version}-info.json`).then(x => x.json());
-        const metadataFile = await fetch(`/b${version}-metadata.json`).then(x => x.json());
-        const svgFile = await fetch(`/b${version}-svg.svg`).then(x => x.text());
+        const infoFile = await fetch(`b${version}-info.json`).then(x => x.json());
+        const metadataFile = await fetch(`b${version}-metadata.json`).then(x => x.json());
+        const svgFile = await fetch(`b${version}-svg.svg`).then(x => x.text());
         return { infoFile, metadataFile, svgFile };
     }
     async function initApp(info, metadata, version) {
@@ -38,7 +38,7 @@
     }
 
     const svgContainer = document.getElementById("svg-container");
-    const versions = await fetch("/versions.json").then(x => x.json());
+    const versions = await fetch("versions.json").then(x => x.json());
     const versionSelectorSelect = document.getElementById("version-selector-select");
     let version = versions[0];
     const query = window.location.search.split("?")[1];

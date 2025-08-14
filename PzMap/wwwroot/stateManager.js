@@ -22,7 +22,7 @@
             return this.appState.saves[this.appState.lastSave];
         }
         saveState() {
-            localStorage.setItem(appName + "-" + version, JSON.stringify(this.appState));
+            localStorage.setItem(appName + "-" + this.version, JSON.stringify(this.appState));
         }
         
         removeStateItem(id) {
