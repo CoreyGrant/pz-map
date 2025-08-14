@@ -6,25 +6,22 @@ var arguments = args;
 var assetFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 var distFolder = Path.Combine(assetFolder, "dist");
 const string folderPath = "C:\\Dev\\pz-assets";
-var lotHeadeReader = new LotHeaderReader();
+var lotHeaderReader = new LotHeaderReader();
+var gameDataReader = new GameDataReader();
+var pzMapRoomReader = new PzMapRoomReader(lotHeaderReader, folderPath);
+var pzMapSvgBuilder = new PzMapSvgBuilder(gameDataReader, pzMapRoomReader, distFolder, folderPath);
+if (!Directory.Exists(distFolder))
+{
+    Directory.CreateDirectory(distFolder);
+}
+var versionSettings = new List<VersionSettings>
+{
+    new VersionSettings{ VersionNumber = 41, CellWidth = 300, CellHeight = 300},
+    //new VersionSettings{ VersionNumber = 42, CellWidth = 256, CellHeight = 256},
+};
 Action run = () =>
 {
-    if (!Directory.Exists(distFolder)) 
-    {  
-        Directory.CreateDirectory(distFolder); 
-    }
-    var versionPaths = new Dictionary<int, string>
-    {
-        [41] = "C:\\Dev\\pz-assets\\b41",
-        //[42] = "C:\\Dev\\pz-assets\\b42",
-    };
-    new PzMapSvgBuilder(
-        new GameDataReader(),
-        new PzMapRoomReader(
-            lotHeadeReader,
-            folderPath),
-        distFolder
-        ).BuildAndSaveVersions(versionPaths);
+    pzMapSvgBuilder.BuildAndSaveVersions(versionSettings);
 
     var htmlBuilder = new HtmlBuilder(
         assetFolder,

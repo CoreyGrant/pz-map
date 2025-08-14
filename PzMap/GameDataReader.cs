@@ -11,22 +11,14 @@ namespace PzMap
     public class GameDataReader
     {
         private readonly string _xmlFileName;
-        private readonly int _cellWidth;
-        private readonly int _cellHeight;
         private int _id = 0;
-        public int CellHeight => _cellHeight;
-        public int CellWidth => _cellWidth;
         public GameDataReader(
-            string xmlFileName = "worldmap.xml",
-            int cellWidth = 300,
-            int cellHeight = 300)
+            string xmlFileName = "worldmap.xml")
         {
             _xmlFileName = xmlFileName;
-            _cellWidth = cellWidth;
-            _cellHeight = cellHeight;
         }
 
-        public DrawingLayers ReadGameData(string folder)
+        public DrawingLayers ReadGameData(string folder, VersionSettings settings)
         {
             var allRoadSegments = new List<Segment>();
             var allBuildingSegments = new List<Segment>();
@@ -50,12 +42,12 @@ namespace PzMap
                 {
                     if (!feature.Properties.Any()) { continue; }
                     var property = feature.Properties.First();
-                    AddSegmentsToList(allRoadSegments, "highway", property, cell, feature);
-                    AddSegmentsToList(allBuildingSegments, "building", property, cell, feature);
-                    AddSegmentsToList(allWaterSegments, "water", property, cell, feature, true);
-                    AddSegmentsToList(allDrivewaySegments, "driveway", property, cell, feature);
-                    AddSegmentsToList(allNaturalSegments, "natural", property, cell, feature);
-                    AddSegmentsToList(allRailwaySegments, "railway", property, cell, feature);
+                    AddSegmentsToList(allRoadSegments, "highway", property, cell, feature, settings);
+                    AddSegmentsToList(allBuildingSegments, "building", property, cell, feature, settings);
+                    AddSegmentsToList(allWaterSegments, "water", property, cell, feature, settings, true);
+                    AddSegmentsToList(allDrivewaySegments, "driveway", property, cell, feature, settings);
+                    AddSegmentsToList(allNaturalSegments, "natural", property, cell, feature, settings);
+                    AddSegmentsToList(allRailwaySegments, "railway", property, cell, feature, settings);
 
                     if (feature.Properties.Any(x => x.Item1 == "name_en"))
                     {
@@ -64,8 +56,8 @@ namespace PzMap
                         {
                             var points = geo.Points.Select(x => new Vector2
                             {
-                                X = x.X + _cellWidth * cell.Location.X,
-                                Y = x.Y + _cellHeight * cell.Location.Y
+                                X = x.X + settings.CellWidth * cell.Location.X,
+                                Y = x.Y + settings.CellHeight * cell.Location.Y
                             }).ToArray();
                             allMapNames.Add(new MapName
                             {
@@ -102,6 +94,7 @@ namespace PzMap
             (string, string) property,
             MapCell cell,
             MapFeature feature,
+            VersionSettings settings,
             bool overlap = false)
         {
             if (property.Item1 == key)
@@ -116,16 +109,16 @@ namespace PzMap
                             var x = p.X;
                             var y = p.Y;
                             if(x == 0) { x -= 2; }
-                            if(x == _cellWidth) { x += 2; }
+                            if(x == settings.CellWidth) { x += 2; }
                             if (y == 0) { y -= 2; }
-                            if (y == _cellHeight) { y += 2; }
+                            if (y == settings.CellHeight) { y += 2; }
                             return new Vector2 { X = x, Y = y };
                         }).ToArray();
                     }
                     var points = geo.Points.Select(x => new Vector2
                     {
-                        X = x.X + _cellWidth * cell.Location.X,
-                        Y = x.Y + _cellHeight * cell.Location.Y
+                        X = x.X + settings.CellWidth * cell.Location.X,
+                        Y = x.Y + settings.CellHeight * cell.Location.Y
                     }).ToArray();
                     segments.Add(new Segment
                     {
@@ -136,11 +129,6 @@ namespace PzMap
                     });
                 }
             }
-        }
-
-        private bool IsValidSubFolder(string path)
-        {
-            return path.Contains("Muldraugh, KY");
         }
     }
 }

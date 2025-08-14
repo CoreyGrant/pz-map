@@ -14,8 +14,6 @@ namespace PzMap
     {
         private readonly LotHeaderReader _lotHeaderReader;
         private readonly string _lotHeaderPath;
-        private readonly int _cellWidth;
-        private readonly int _cellHeight;
 
         // read all the lot headers,
         // map the positions using cell/location within cell
@@ -23,24 +21,26 @@ namespace PzMap
         // get the ids for each room
         // figure out which buildings from the svg mapgen are which type
 
-        public PzMapRoomReader(LotHeaderReader lotHeaderReader, string lotHeaderPath, int cellWidth = 300, int cellHeight = 300) 
+        public PzMapRoomReader(LotHeaderReader lotHeaderReader, string lotHeaderPath) 
         {
             _lotHeaderReader = lotHeaderReader;
             _lotHeaderPath = lotHeaderPath;
-            _cellWidth = cellWidth;
-            _cellHeight = cellHeight;
         }
 
-        public Dictionary<string, object> AssignBuildingTypesFromLotHeaders(List<Segment> buildingSegments, int version)
+        public Dictionary<string, object> AssignBuildingTypesFromLotHeaders(
+            List<Segment> buildingSegments,
+            VersionSettings versionSettings)
         {
             var lotHeaders = _lotHeaderReader.ReadFolder(
-                Path.Combine(_lotHeaderPath, "b" + version), version);
-            var combinedLotHeaders = CombineLotHeaders(lotHeaders);
+                Path.Combine(_lotHeaderPath, "b" + versionSettings.VersionNumber),
+                versionSettings.VersionNumber);
+            var combinedLotHeaders = CombineLotHeaders(lotHeaders, versionSettings);
             return AssignBuildingTypes(buildingSegments, combinedLotHeaders);
         }
 
         private List<PzMapRoom> CombineLotHeaders(
-            List<LotHeaderFile> lotHeaders)
+            List<LotHeaderFile> lotHeaders,
+            VersionSettings versionSettings)
         {
             var mappedRooms = new List<PzMapRoom>();
             foreach(var header in lotHeaders)
@@ -51,14 +51,14 @@ namespace PzMap
                     Floor = x.Level,
                     Rectangles = x.Rectangles.Select(r => new PzMapRoomRectangle
                     {
-                        X = r.X + header.CellX * _cellWidth,
-                        Y = r.Y + header.CellY * _cellHeight,
+                        X = r.X + header.CellX * versionSettings.CellWidth,
+                        Y = r.Y + header.CellY * versionSettings.CellHeight,
                         Width = r.Width,
                         Height = r.Height,
                         Midpoint = new System.Numerics.Vector2
                         {
-                            X = r.X + header.CellX * _cellWidth + ((float)r.Width)/2,
-                            Y = r.Y + header.CellY * _cellHeight + ((float)r.Height)/2,
+                            X = r.X + header.CellX * versionSettings.CellWidth + ((float)r.Width)/2,
+                            Y = r.Y + header.CellY * versionSettings.CellHeight + ((float)r.Height)/2,
                         },
                     }).ToList()
                 }));

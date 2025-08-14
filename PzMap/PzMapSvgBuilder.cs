@@ -16,22 +16,25 @@ namespace PzMap
         private readonly GameDataReader _gameDataReader;
         private readonly PzMapRoomReader _pzMapRoomReader;
         private readonly string _outputPath;
+        private readonly string _assetPath;
 
         public PzMapSvgBuilder(
             GameDataReader gameDataReader,
             PzMapRoomReader pzMapRoomReader,
-            string outputPath) 
+            string outputPath,
+            string assetPath) 
         {
             _gameDataReader = gameDataReader;
             _pzMapRoomReader = pzMapRoomReader;
             _outputPath = outputPath;
+            _assetPath = assetPath;
         }
-        public void BuildAndSaveVersions(Dictionary<int, string> versionPaths)
+        public void BuildAndSaveVersions(List<VersionSettings> versionSettings)
         {
-            foreach(var (version, folderPath) in versionPaths)
+            foreach(var settings in versionSettings)
             {
-                var (svg, metadata, info) = BuildSvg(
-                    folderPath, version);
+                var version = settings.VersionNumber;
+                var (svg, metadata, info) = BuildSvg(settings);
                 var svgOutputPath = Path.Combine(_outputPath, $"b{version}-svg.svg");
                 var infoOutputPath = Path.Combine(_outputPath, $"b{version}-info.json");
                 var metadataOutputPath = Path.Combine(_outputPath, $"b{version}-metadata.json");
@@ -39,16 +42,18 @@ namespace PzMap
                 File.WriteAllText(infoOutputPath, info);
                 File.WriteAllText(metadataOutputPath, metadata);
             }
-            var versionsJson = JsonConvert.SerializeObject(versionPaths.Keys.ToList());
+            var versionsJson = JsonConvert.SerializeObject(versionSettings.Select(x => x.VersionNumber).ToList());
             File.WriteAllText(Path.Combine(_outputPath, "versions.json"), versionsJson);
         }
 
-        public (string, string, string) BuildSvg(string folderPath, int version)
+        public (string, string, string) BuildSvg(VersionSettings settings)
         {
-            var drawingLayers = _gameDataReader.ReadGameData(folderPath);
+            var drawingLayers = _gameDataReader.ReadGameData(
+                Path.Combine(_assetPath, "b" + settings.VersionNumber),
+                settings);
             var imageDimensions = GetImageDimensions(drawingLayers);
             var svgWriter = new SvgWriter(imageDimensions);
-            var metadataDict = _pzMapRoomReader.AssignBuildingTypesFromLotHeaders(drawingLayers.BuildingLayer, version);
+            var metadataDict = _pzMapRoomReader.AssignBuildingTypesFromLotHeaders(drawingLayers.BuildingLayer, settings);
 
             svgWriter.AddStyleOptions();
             AddToSvg(drawingLayers.WaterLayer, svgWriter); 
@@ -71,7 +76,6 @@ namespace PzMap
 
         private void AddToSvg(List<Segment> segments, SvgWriter svgWriter)
         {
-
             foreach (var segment in segments)
             {
                 svgWriter.AddPolygon(
@@ -143,5 +147,12 @@ namespace PzMap
             }
             return (fill, stroke);
         }
+    }
+
+    public class VersionSettings
+    {
+        public int VersionNumber { get; set; }
+        public int CellWidth { get; set; }
+        public int CellHeight { get; set; }
     }
 }
