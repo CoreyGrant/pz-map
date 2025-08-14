@@ -32,17 +32,18 @@
     }
 
     setupReset();
+    const queryState = new QueryState();
     async function loadVersion(version) {
         const infoFile = await fetch(`b${version}-info.json`).then(x => x.json());
         const metadataFile = await fetch(`b${version}-metadata.json`).then(x => x.json());
         const svgFile = await fetch(`b${version}-svg.svg`).then(x => x.text());
         return { infoFile, metadataFile, svgFile };
     }
-    async function initApp(info, metadata, version) {
+    async function initApp(svgContainer, info, metadata, version) {
         const svg = svgContainer.querySelector("svg");
         const stateManager = new StateManager(version);
         const polygonManager = new PolygonManager(svg, stateManager);
-        const textAnnotater = new TextAnnotater(svg);
+        const textAnnotater = new TextAnnotater(svg, version);
         const mapConfig = {
             width: info.mapWidth,
             height: info.mapHeight,
@@ -55,7 +56,7 @@
             },
             initialZoom: 1
         }
-        const mapSvg = new MapSvg(svg, mapConfig);
+        const mapSvg = new MapSvg(svg, mapConfig, queryState);
         const locator = new Locator(svg, metadata, mapSvg);
         const popover = new Popover(svg, stateManager, metadata, polygonManager, locator, info)
         const saveManager = new SaveManager(stateManager, popover, polygonManager);
@@ -63,27 +64,32 @@
         const svgManager = new SvgManager(svg, popover);
     }
     async function startApp(svgContainer, version) {
+        const svg = svgContainer.querySelector("svg");
+        if (svg) {
+            svg.remove();
+        }
+        
         const { infoFile, metadataFile, svgFile } = await loadVersion(version);
         const currentSvgContainerContent = svgContainer.innerHTML;
         const newInnerHTML = svgFile + currentSvgContainerContent;
         svgContainer.innerHTML = newInnerHTML;
-        await initApp(infoFile, metadataFile, version);
+        await initApp(svgContainer, infoFile, metadataFile, version);
+        const versionSelectorSelect = document.getElementById("version-selector-select");
+        versionSelectorSelect.value = version;
+        queryState.updateQuery({ v: version });
+        versionSelectorSelect.addEventListener('change', () => {
+            const version = versionSelectorSelect.value;
+            startApp(svgContainer, version);
+        });
     }
 
     const svgContainer = document.getElementById("svg-container");
     const versions = await fetch("versions.json").then(x => x.json());
     const versionSelectorSelect = document.getElementById("version-selector-select");
     let version = versions[0];
-    const query = window.location.search.split("?")[1];
-    if (query && query.length) {
-        const queryPaths = query.split("&");
-        for (const path of queryPaths) {
-            const pathParts = path.split("=");
-            if (pathParts[0] == "v") {
-                version = +queryParts[1];
-                break;
-            }
-        }
+    const queryVersion = queryState.state.v;
+    if (queryVersion && queryVersion.length) {
+        version = +queryVersion;
     }
     for (const ver of versions) {
         const option = document.createElement("option");
@@ -92,10 +98,7 @@
         option.selected = version == ver;
         versionSelectorSelect.appendChild(option);
     }
-    versionSelectorSelect.addEventListener('change', async () => {
-        const version = versionSelectorSelect.value;
-        await startApp(svgContainer, version);
-    })
+    
     
     await startApp(svgContainer, version);
 }());

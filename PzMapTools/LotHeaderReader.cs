@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -51,10 +52,12 @@ namespace PzMapTools
                 var file = new LotHeaderFile();
                 file.FormatVersion = ReadInt(stream);
                 file.NumberOfTiles = ReadInt(stream);
-                ReadInt(stream);
-                file.UnknownStrings = ReadStrings(stream);
+                file.UnknownStringsCount = ReadInt(stream);
+                file.UnknownStrings = ReadStrings(stream, file.UnknownStringsCount);
                 file.Width = ReadInt(stream);
                 file.Height = ReadInt(stream);
+                // seems to be an empty byte here after width/height, assume is basementLevels
+                file.BasementLevels = ReadInt(stream);
                 file.VerticalLevels = ReadInt(stream);
                 file.RoomCount = ReadInt(stream);
                 file.Rooms = ReadRooms(file.RoomCount, stream);
@@ -92,16 +95,35 @@ namespace PzMapTools
             }
         }
 
-        private string[] ReadStrings(Stream stream)
+        private string[] ReadStrings(Stream stream, int? count = null)
         {
-            if (stream.Position == stream.Length) { return []; }
-            var strings = new List<string>();
-            while (true)
+            if (!count.HasValue)
             {
-                var peekedByte = stream.ReadByte();
-                if (peekedByte == 0x00 || peekedByte == 0xFF || peekedByte == -1) { return strings.ToArray(); }
-                stream.Position--;
-                strings.Add(ReadString(stream));
+                if (stream.Position == stream.Length) { return []; }
+                var strings = new List<string>();
+                while (true)
+                {
+                    var peekedByte = stream.ReadByte();
+                    if (peekedByte == 0x00
+                        || peekedByte == 0xFF
+                        || peekedByte == -1) { return strings.ToArray(); }
+                    stream.Position--;
+                    strings.Add(ReadString(stream));
+                }
+            } else
+            {
+                if (stream.Position == stream.Length) { return []; }
+                var strings = new List<string>();
+                for (var i = 0; i < count.Value; i++)
+                {
+                    var peekedByte = stream.ReadByte();
+                    if (peekedByte == 0x00
+                        || peekedByte == 0xFF
+                        || peekedByte == -1) { return strings.ToArray(); }
+                    stream.Position--;
+                    strings.Add(ReadString(stream));
+                }
+                return strings.ToArray();
             }
         }
 
@@ -179,9 +201,11 @@ namespace PzMapTools
         public int CellY { get; set; }
         public int FormatVersion { get; set; }
         public int NumberOfTiles { get; set; }
+        public int UnknownStringsCount { get; set; }
         public string[] UnknownStrings { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public int BasementLevels { get; set; }
         public int VerticalLevels { get; set; }
         public int RoomCount { get; set; }
         public List<Room> Rooms { get; set; }

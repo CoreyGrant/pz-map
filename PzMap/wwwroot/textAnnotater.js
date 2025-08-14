@@ -4,13 +4,7 @@
             orientation: "horizontal",
             fontSize: "200px",
             color: "rgba(0,0,0, 0.5)",
-        }, obj, {
-            // apply offset to zero out the top right
-            location: {
-                x: obj.location.x - 3000,
-                y: obj.location.y - 900
-            }
-        });
+        }, obj);
     }
     function townName(obj) {
         return Object.assign({
@@ -19,39 +13,67 @@
             color: "rgba(0,0,0, 0.5)"
         }, obj);
     }
-    const annotations = [
-        cityName({
-            location: { x: 9500 , y: 9180 },
-            text: "Muldraugh",
-        }),
-        cityName({
-            location: { x: 6100, y: 5150 },
-            text: "Riverside",
-        }),
-        cityName({
-            location: { x: 7100, y: 11400 },
-            text: "Rosewood",
-        }),
-        cityName({
-            location: { x: 11200, y: 6550 },
-            text: "West Point",
-        }),
-        cityName({
-            location: { x: 12600, y: 1080 },
-            text: "Louisville",
-        }),
-        cityName({
-            location: { x: 9220, y: 12550 },
-            text: "March Ridge",
-        }),
-    ];
+    const annotations = {
+        "41": [
+            //cityName({
+            //    location: { x: 9500, y: 9180 },
+            //    text: "Muldraugh",
+            //}),
+            //cityName({
+            //    location: { x: 6100, y: 5150 },
+            //    text: "Riverside",
+            //}),
+            //cityName({
+            //    location: { x: 7100, y: 11400 },
+            //    text: "Rosewood",
+            //}),
+            //cityName({
+            //    location: { x: 11200, y: 6550 },
+            //    text: "West Point",
+            //}),
+            //cityName({
+            //    location: { x: 12600, y: 1080 },
+            //    text: "Louisville",
+            //}),
+            //cityName({
+            //    location: { x: 9220, y: 12550 },
+            //    text: "March Ridge",
+            //}),
+        ],
+        "42": [
+            //cityName({
+            //    location: { x: 8100, y: 7780},
+            //    text: "Muldraugh",
+            //}),
+            //cityName({
+            //    location: { x: 6100, y: 5150 },
+            //    text: "Riverside",
+            //}),
+            //cityName({
+            //    location: { x: 7100, y: 11400 },
+            //    text: "Rosewood",
+            //}),
+            //cityName({
+            //    location: { x: 11200, y: 6550 },
+            //    text: "West Point",
+            //}),
+            //cityName({
+            //    location: { x: 12600, y: 1080 },
+            //    text: "Louisville",
+            //}),
+            //cityName({
+            //    location: { x: 9220, y: 12550 },
+            //    text: "March Ridge",
+            //}),
+        ]
+    };
     
 
     class TextAnnotater {
         svg;
-        constructor(svg) {
+        constructor(svg, version) {
             this.svg = svg;
-            for (const annotation of annotations) {
+            for (const annotation of annotations[version.toString()]) {
                 const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
                 text.setAttribute("x", annotation.location.x);
                 text.setAttribute("y", annotation.location.y);

@@ -42,6 +42,9 @@
     <None Update="wwwroot\popover.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="wwwroot\queryState.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="wwwroot\saveManager.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

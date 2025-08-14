@@ -51,14 +51,14 @@ namespace PzMap
                     Floor = x.Level,
                     Rectangles = x.Rectangles.Select(r => new PzMapRoomRectangle
                     {
-                        X = r.X + header.CellX * versionSettings.CellWidth,
-                        Y = r.Y + header.CellY * versionSettings.CellHeight,
+                        X = r.X + header.CellX * versionSettings.LotCellWidth,
+                        Y = r.Y + header.CellY * versionSettings.LotCellHeight,
                         Width = r.Width,
                         Height = r.Height,
                         Midpoint = new System.Numerics.Vector2
                         {
-                            X = r.X + header.CellX * versionSettings.CellWidth + ((float)r.Width)/2,
-                            Y = r.Y + header.CellY * versionSettings.CellHeight + ((float)r.Height)/2,
+                            X = r.X + header.CellX * versionSettings.LotCellWidth + ((float)r.Width)/2,
+                            Y = r.Y + header.CellY * versionSettings.LotCellHeight + ((float)r.Height)/2,
                         },
                     }).ToList()
                 }));

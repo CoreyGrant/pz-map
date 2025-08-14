@@ -16,8 +16,8 @@ if (!Directory.Exists(distFolder))
 }
 var versionSettings = new List<VersionSettings>
 {
-    new VersionSettings{ VersionNumber = 41, CellWidth = 300, CellHeight = 300},
-    //new VersionSettings{ VersionNumber = 42, CellWidth = 256, CellHeight = 256},
+    new VersionSettings{ VersionNumber = 41, CellWidth = 300, CellHeight = 300, LotCellHeight = 300, LotCellWidth = 300},
+    new VersionSettings{ VersionNumber = 42, CellWidth = 300, CellHeight = 300, LotCellHeight = 256, LotCellWidth = 256},
 };
 Action run = () =>
 {

@@ -27,10 +27,11 @@
         centreX;
         centreY;
         pt;
-        constructor(svg, mapConfig) {
+        constructor(svg, mapConfig, queryState) {
             this.svg = svg;
             this.pt = svg.createSVGPoint();
             this.mapConfig = mapConfig;
+            this.queryState = queryState;
             this.initFromConfig(mapConfig);
             this.loadQuery();
             this.updateViewbox(true);
@@ -275,13 +276,10 @@
         }
 
         loadQuery() {
-            const query = window.location.search;
-            const parts = query.substring(1).split("&");
+            const queryState = this.queryState.state;
             let change = false;
-            for (const part of parts) {
-                const queryParts = part.split("=");
-                const name = queryParts[0].toLowerCase();
-                const value = queryParts[1];
+            for (const name in queryState) {
+                const value = queryState[name];
                 if (name == "centrex") {
                     this.centreX = +value;
                     change = true;
@@ -304,8 +302,12 @@
         }
         debouncedUpdateQuery = debounce.bind(this)(this.updateQuery);
         updateQuery() {
-            const newState = `?centreX=${this.centreX.toFixed(0)}&centreY=${this.centreY.toFixed(0)}&zoom=${this.zoom}`;
-            window.history.replaceState(null, "", window.location.pathname + newState);
+            const newState = {
+                centreX: this.centreX.toFixed(0),
+                centreY: this.centreY.toFixed(0),
+                zoom: this.zoom
+            };
+            this.queryState.updateQuery(newState);
         }
 
         zoomScale(val) {

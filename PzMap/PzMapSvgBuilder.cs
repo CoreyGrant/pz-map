@@ -13,6 +13,7 @@ namespace PzMap
 {
     public class PzMapSvgBuilder
     {
+        private readonly DataCache _dataCache;
         private readonly GameDataReader _gameDataReader;
         private readonly PzMapRoomReader _pzMapRoomReader;
         private readonly string _outputPath;
@@ -28,13 +29,27 @@ namespace PzMap
             _pzMapRoomReader = pzMapRoomReader;
             _outputPath = outputPath;
             _assetPath = assetPath;
+            _dataCache = new DataCache(outputPath);
         }
+
+        private bool _cache = false;
         public void BuildAndSaveVersions(List<VersionSettings> versionSettings)
         {
             foreach(var settings in versionSettings)
             {
+                string svg; string metadata; string info;
                 var version = settings.VersionNumber;
-                var (svg, metadata, info) = BuildSvg(settings);
+                if (_cache)
+                {
+                    if (!_dataCache.TryGetCached(version, out svg, out metadata, out info))
+                    {
+                        (svg, metadata, info) = BuildSvg(settings);
+                    }
+                } else
+                {
+                    (svg, metadata, info) = BuildSvg(settings);
+                }
+
                 var svgOutputPath = Path.Combine(_outputPath, $"b{version}-svg.svg");
                 var infoOutputPath = Path.Combine(_outputPath, $"b{version}-info.json");
                 var metadataOutputPath = Path.Combine(_outputPath, $"b{version}-metadata.json");
@@ -124,7 +139,7 @@ namespace PzMap
             {
                 case "building":
                     if(type == "RetailAndCommercial") { fill = Color.FromArgb(184, 205, 84); }
-                    if(type == "yes") { fill = Color.FromArgb(225, 176, 126); }
+                    if(type == "yes" || type == "Residential") { fill = Color.FromArgb(225, 176, 126); }
                     if(type == "Industrial") { fill = Color.FromArgb(56, 55, 53); }
                     if(type == "RestaurantsAndEntertainment") { fill = Color.FromArgb(245, 225, 60); }
                     if(type == "CommunityServices") { fill = Color.FromArgb(140, 118, 235); }
@@ -154,5 +169,7 @@ namespace PzMap
         public int VersionNumber { get; set; }
         public int CellWidth { get; set; }
         public int CellHeight { get; set; }
+        public int LotCellWidth { get; set; }
+        public int LotCellHeight { get; set; }
     }
 }
