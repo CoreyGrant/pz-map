@@ -15,4 +15,32 @@ Building types derived from rooms - too many false positives
 -- Show number of floors per building
 -- Scroll wheel zoom should centre on the location of the mouse pointer
 -- Zero the top right of the svg
-Better saving, with a single localstorage value
+-- Better saving, with a single localstorage value
+
+*** Current ***
+
+Trip planner:
+
+A view where a user can plan looting trips into other towns, in whatever way they like
+More advanced map searching options:
+	Can select multiple room types to have buildings containing them permanantly highlighted, using and/or logic
+Buildings can be selected to go on a list, which can then be re-ordered, and the numbers will appear on the buildings
+	- each building can have specific rooms selected, to show which loot is the main focus
+When in this view a simplified popover is shown, where trip-specific notes can be taken, and buildings can be marked as looted/checked off the list as they go
+	- checked off buildings will update the main view's looted status
+
+New view management
+Basic view
+	- show/hide city names, railways, buildings, roads, toolbar text etc
+Trip planning view
+	- show/hide city names, railways, buildings, roads, toolbar text etc
+
+Other advanced features:
+	Allow the user to set the current in-game date/time, and the loot respawn frequency, so we can show when building loot has respawned?
+	Zombie density overlay, possibly using the sandbox settings and date to determine approx zombie quantity
+	Basic guides for each town, so a user can select a default loot trip which will include all the most important loot available
+	Include objects with buildings, so things like popsicle fridges can be found and taken
+Carryover tasks:
+	Add more options for icons to add via toolbar
+	Collapsing menus for mobile
+	Mobile pinch-to-zoom
