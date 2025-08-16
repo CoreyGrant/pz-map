@@ -28,7 +28,7 @@ A: The app is currently under development and features may be added, removed or 
 Q: I've found a bug, your app sucks  
 A: Please report it via github, or once it's set up the discord server (TBA)  
   
-Upcomming features:  
+Upcoming features:  
 A loot trip planner, so you can develop a detailed plan for that Louisville trip and make sure you don't miss anything  
 Basic starter guides for each town, giving you a default plan for all the best loot  
 Including world objects, so you can easily find all the popsicle-freezers near your base for "recovery"  
